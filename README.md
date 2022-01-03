@@ -1,6 +1,5 @@
 # job4j_design [link](https://github.com/AfkanGus/job4j_design)
 
-![job4j_design](https://job4j.ru/img/andriod_interview.png)
 
 ### __Данный репозитории__ - это проек обучающего курса по **java** _программированию_ на уровне **"Junior"**.
 

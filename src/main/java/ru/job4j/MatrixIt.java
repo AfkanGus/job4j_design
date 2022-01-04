@@ -3,6 +3,9 @@ package ru.job4j;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * 5.1.1. Итератор для двухмерного массива int[][] [#9539 #246991].
+ */
 public class MatrixIt implements Iterator<Integer> {
     private final int[][] data;
     private int row = 0;
@@ -19,13 +22,9 @@ public class MatrixIt implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        for (int i = row; i < data.length; i++) {
-            if (data[i].length == column) {
-                row++;
-                column = 0;
-            } else {
-                break;
-            }
+        while (data.length > row && data[row].length == column) {
+            row++;
+            column = 0;
         }
         return data.length > row;
     }
@@ -33,6 +32,7 @@ public class MatrixIt implements Iterator<Integer> {
     /**
      * Итератор получает элементы и через проверку, при отсутсвии элемента
      * выбросит NoSuchElementException.
+     *
      * @return вернет последовательно элементы массива.
      */
     @Override

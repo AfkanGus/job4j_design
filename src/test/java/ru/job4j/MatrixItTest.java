@@ -7,6 +7,9 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * 5.1.1. Итератор для двухмерного массива int[][] [#9539 #246991].
+ */
 public class MatrixItTest {
     @Test
     public void when4El() {

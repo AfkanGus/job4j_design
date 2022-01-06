@@ -26,7 +26,7 @@ public class EvenNumbersIterator implements Iterator<Integer> {
         while (index < data.length && data[index] % 2 != 0) {
             index++;
         }
-        return index < data.length && data[index] % 2 == 0;
+        return index < data.length;
     }
 
     /**

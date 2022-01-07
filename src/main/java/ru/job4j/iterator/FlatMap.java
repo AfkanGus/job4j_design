@@ -10,8 +10,7 @@ import java.util.NoSuchElementException;
  */
 public class FlatMap<T> implements Iterator<T> {
     /**
-     * C- коллекции
-     * cursor = Collections.emptyIterator() - метод
+     * cursor = Collections.emptyIterator() - это итератор пустой строки.
      */
     private final Iterator<Iterator<T>> data;
     private Iterator<T> cursor = Collections.emptyIterator();

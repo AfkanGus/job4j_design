@@ -1,0 +1,72 @@
+package ru.job4j.generics;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Generics {
+    public static void main(String[] args) {
+        Generics gen = new Generics();
+        List<Animal> first = new ArrayList<>();
+        List<Predator> second = new ArrayList<>();
+        List<Tiger> third = new ArrayList<>();
+        first.add(new Animal());
+        second.add(new Predator());
+        third.add(new Tiger());
+
+        gen.printObject(first);
+        gen.printObject(second);
+        gen.printObject(third);
+        System.out.println();
+
+        // gen.printBoundedWildCard(first);
+        gen.printBoundedWildCard(second);
+        gen.printBoundedWildCard(third);
+        System.out.println();
+
+        gen.printLowerBoundedWildCard(first);
+        gen.printLowerBoundedWildCard(second);
+        // gen.printLowerBoundedWildCard(third);
+    }
+
+    /**
+     * WildCard - <?> - использования generics без ограничений.
+     *
+     * @param list
+     */
+    public void printObject(List<?> list) {
+        for (Iterator<?> it = list.iterator(); it.hasNext();
+        ) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
+    }
+
+    /**
+     * Bounded Wildcard - ограничение сверху - <? extends Predator>.
+     *
+     * @param list
+     */
+    public void printBoundedWildCard(List<? extends Predator> list) {
+        for (Iterator<? extends Predator> it = list.iterator(); it.hasNext();
+        ) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
+    }
+
+    /**
+     * printLowerBoundedWildcard - ограничение типа сверху - с помощью wildcard символа ("?"),
+     * за которым следует ключевое слово super после которого указывается нижняя граница
+     * - <? super Predator>.
+     *
+     * @param list
+     */
+    public void printLowerBoundedWildCard(List<? super Predator> list) {
+        for (Iterator<? super Predator> it = list.iterator(); it.hasNext();
+        ) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
+    }
+}

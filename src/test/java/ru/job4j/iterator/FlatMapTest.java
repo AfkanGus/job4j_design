@@ -3,7 +3,6 @@ package ru.job4j.iterator;
 
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;

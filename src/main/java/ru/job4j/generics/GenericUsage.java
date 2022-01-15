@@ -14,7 +14,11 @@ public class GenericUsage {
         new GenericUsage().addAll(list);
     }
 
-    //WIndCard -<?> - устраняет проблему не совместимости типов
+    /**
+     * WIndCard -< ?> - устраняет проблему не совместимости типов
+     *
+     * @param col
+     */
     public void printRsl(Collection<?> col) {
         for (Iterator<?> it = col.iterator();
              it.hasNext();
@@ -24,7 +28,11 @@ public class GenericUsage {
         }
     }
 
-    //Bounded Wildcard - <? extends Person> - ограничение сверху,
+    /**
+     * Bounded Wildcard - < ? extends Person> - ограничение сверху,
+     *
+     * @param col
+     */
     public void printInfo(Collection<? extends Person> col) {
         for (Iterator<? extends Person> it = col.iterator();
              it.hasNext();

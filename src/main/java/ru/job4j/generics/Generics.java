@@ -19,18 +19,22 @@ public class Generics {
         gen.printObject(third);
         System.out.println();
 
-        // gen.printBoundedWildCard(first);
+        /*
+        gen.printBoundedWildCard(first);
+         */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        // gen.printLowerBoundedWildCard(third);
+        /*
+        gen.printLowerBoundedWildCard(third);
+         */
     }
 
     /**
-     * WildCard - <?> - использования generics без ограничений.
+     * WildCard - < ?> - использования generics без ограничений.
      *
      * @param list
      */
@@ -43,7 +47,7 @@ public class Generics {
     }
 
     /**
-     * Bounded Wildcard - ограничение сверху - <? extends Predator>.
+     * Bounded Wildcard - ограничение сверху - < ? extends Predator>.
      *
      * @param list
      */
@@ -58,7 +62,7 @@ public class Generics {
     /**
      * printLowerBoundedWildcard - ограничение типа сверху - с помощью wildcard символа ("?"),
      * за которым следует ключевое слово super после которого указывается нижняя граница
-     * - <? super Predator>.
+     * -  < ? super Predator>.
      *
      * @param list
      */

@@ -3,6 +3,7 @@ package ru.job4j.collection;
 import java.util.*;
 
 /**
+ * 1. Динамический список на массиве. [#158].
  * SimpleArrayList - класс список на основе динамического массива.
  *
  * @param <T> - тип даннных в контейнер.

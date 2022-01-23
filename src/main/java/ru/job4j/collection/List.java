@@ -1,5 +1,8 @@
 package ru.job4j.collection;
 
+/**
+ * 1. Динамический список на массиве. [#158].
+ */
 public interface List<T> extends Iterable<T> {
     void add(T value);
 

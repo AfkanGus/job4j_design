@@ -8,7 +8,9 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
-
+/**
+ * 1. Динамический список на массиве. [#158].
+ */
 public class SimpleArrayListTest {
     List<Integer> list;
 

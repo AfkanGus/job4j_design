@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class SimpleArrayList<T> implements List<T> {
     private T[] container;
-    private int size;
+    private int size = 0;
     private int modCount;
 
     /**
@@ -26,6 +26,10 @@ public class SimpleArrayList<T> implements List<T> {
      * Метод grow() - расширит container в два раза.
      */
     private void grow(T value) {
+        if (container.length == 0) {
+            container = Arrays.copyOf(container, 1);
+            modCount++;
+        }
         container = Arrays.copyOf(container, container.length * 2);
     }
 

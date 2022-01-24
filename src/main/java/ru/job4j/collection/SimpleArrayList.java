@@ -24,12 +24,9 @@ public class SimpleArrayList<T> implements List<T> {
 
     /**
      * Метод grow() - расширит container в два раза.
-     *
-     * @return
      */
-    private T[] grow(T value) {
+    private void grow(T value) {
         container = Arrays.copyOf(container, container.length * 2);
-        return Arrays.copyOf(container, 10);
     }
 
     /**
@@ -74,8 +71,8 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public T remove(int index) {
         T prevIndex = get(index);
-        System.arraycopy(container, index, container, index + 1, size - index);
-        container[size--] = null;
+        System.arraycopy(container, index + 1, container, index, size - index - 1);
+        container[--size] = null;
         modCount++;
         return prevIndex;
     }

@@ -1,6 +1,5 @@
 package ru.job4j.iterator;
 
-
 import org.junit.Test;
 
 import java.util.Iterator;

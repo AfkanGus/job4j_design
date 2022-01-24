@@ -10,7 +10,14 @@ import java.util.*;
  */
 public class SimpleArrayList<T> implements List<T> {
     private T[] container;
+    /**
+     * <size> счетчик - указывающий на актуальный размер массива <container>
+     */
     private int size = 0;
+    /**
+     * <modCount> счетчик для определения общего количества структурных изменений, сделанных в этой коллекции
+     * необходим для корректной работы <iterator>
+     */
     private int modCount;
 
     /**
@@ -28,9 +35,9 @@ public class SimpleArrayList<T> implements List<T> {
     private void grow(T value) {
         if (container.length == 0) {
             container = Arrays.copyOf(container, 1);
-            modCount++;
         }
         container = Arrays.copyOf(container, container.length * 2);
+        modCount++;
     }
 
     /**

@@ -29,9 +29,6 @@ public class SimpleArrayList<T> implements List<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    /**
-     * Метод grow() - расширит container в два раза.
-     */
     private void grow(T value) {
         if (container.length == 0) {
             container = Arrays.copyOf(container, 1);

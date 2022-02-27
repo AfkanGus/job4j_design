@@ -84,7 +84,7 @@ public class FlatMapTest {
                 Collections.emptyIterator(),
                 Collections.emptyIterator()
         ).iterator();
-        var flat = new FlatMap(it);
+        FlatMap<Object> flat = new FlatMap<>(it);
         assertFalse(flat.hasNext());
     }
 

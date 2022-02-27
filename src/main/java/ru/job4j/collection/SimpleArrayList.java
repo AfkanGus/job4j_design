@@ -29,7 +29,7 @@ public class SimpleArrayList<T> implements List<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    private void grow(T value) {
+    private void grow() {
         if (container.length == 0) {
             container = Arrays.copyOf(container, 1);
         }
@@ -49,7 +49,7 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public void add(T value) {
         if (size == container.length) {
-            grow(value);
+            grow();
         }
         container[size++] = value;
         modCount++;
@@ -109,7 +109,7 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private int cursor = 0;
             final int expectedModCount = modCount;
 

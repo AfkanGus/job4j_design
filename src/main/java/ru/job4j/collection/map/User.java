@@ -27,8 +27,13 @@ public class User {
                 && Objects.equals(birthday, user.birthday);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
+
     public static void main(String[] args) {
-       GregorianCalendar birthday1 = new GregorianCalendar(2022, Calendar.FEBRUARY, 1, 1, 1, 1);
+        GregorianCalendar birthday1 = new GregorianCalendar(2022, Calendar.FEBRUARY, 1, 1, 1, 1);
         GregorianCalendar birthday2 = new GregorianCalendar(2022, Calendar.FEBRUARY, 1, 1, 1, 1);
         User user1 = new User("Tom", 1, birthday1);
         User user2 = new User("Tom", 1, birthday2);

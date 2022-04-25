@@ -92,16 +92,18 @@ public class SimpleMapTest {
         SimpleMap<Integer, String> map = new SimpleMap<>();
         map.iterator().next();
     }
+
     @Test
     public void whenGetIteratorTwiceThenStartAlwaysFromBeginning() {
         SimpleMap<Integer, String> map = new SimpleMap<>();
+        map.put(1, "1");
         Assert.assertEquals(Integer.valueOf(1), map.iterator().next());
         Assert.assertEquals(Integer.valueOf(1), map.iterator().next());
     }
 
     @Test
     public void whenCheckIterator() {
-       SimpleMap<Integer, String> map = new SimpleMap<>();
+        SimpleMap<Integer, String> map = new SimpleMap<>();
         map.put(1, "1");
         map.put(2, "2");
         map.put(3, "3");

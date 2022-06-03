@@ -3,8 +3,7 @@ package ru.job4j.tree;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class SimpleTreeTest {
     @Test
@@ -42,4 +41,23 @@ public class SimpleTreeTest {
         assertFalse(tree.add(2, 6));
     }
 
+    @Test
+    public void whenBinary() {
+        Tree<Integer> integerTree = new SimpleTree<>(100);
+        integerTree.add(50, 30);
+        integerTree.add(40, 20);
+        integerTree.add(101, 120);
+        integerTree.add(120, 110);
+        assertTrue(integerTree.isBinary());
+    }
+
+    @Test
+    public void whenNotBinary() {
+        Tree<Integer> integerTree = new SimpleTree<>(100);
+        integerTree.add(100, 30);
+        integerTree.add(100, 20);
+        integerTree.add(100, 120);
+        integerTree.add(120, 110);
+        assertFalse(integerTree.isBinary());
+    }
 }

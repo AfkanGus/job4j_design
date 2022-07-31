@@ -10,7 +10,7 @@ public class LogFilter {
     public List<String> filter(String file) {
         List<String> rsl = null;
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            rsl = in.lines().filter(s -> s.contains("404"))
+            rsl = in.lines().filter(s -> s.contains(" 404 "))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();

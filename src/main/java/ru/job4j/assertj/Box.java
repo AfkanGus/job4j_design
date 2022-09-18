@@ -14,20 +14,18 @@ public class Box {
 
     private void init() {
         type = switch (vertex) {
-            case 0 ->"Sphere";
-            case 4 ->"Tetrahedron";
-            case 8 ->"Cube";
-            default ->UNKNOWN;
-        } ;
+            case 0 -> "Sphere";
+            case 4 -> "Tetrahedron";
+            case 8 -> "Cube";
+            default -> UNKNOWN;
+        };
         if (UNKNOWN.equals(type)) {
             vertex = -1;
         }
         if (edge <= 0) {
-            vertex = -1;
-            type = UNKNOWN;
+            vertex = -1; type = UNKNOWN;
         }
     }
-
 
     public String whatsThis() {
         return this.type;
@@ -44,10 +42,10 @@ public class Box {
     public double getArea() {
         double a = edge;
         return switch (vertex) {
-            case 0 ->4 * Math.PI * (a * a);
-            case 4 ->Math.sqrt(3) * (a * a);
-            case 8 ->6 * (a * a);
-            default ->0;
-        } ;
+            case 0 -> 4 * Math.PI * (a * a);
+            case 4 -> Math.sqrt(3) * (a * a);
+            case 8 -> 6 * (a * a);
+            default -> 0;
+        };
     }
 }

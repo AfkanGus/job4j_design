@@ -23,7 +23,8 @@ public class Box {
             vertex = -1;
         }
         if (edge <= 0) {
-            vertex = -1; type = UNKNOWN;
+            vertex = -1;
+            type = UNKNOWN;
         }
     }
 

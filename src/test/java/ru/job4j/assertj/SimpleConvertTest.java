@@ -20,7 +20,7 @@ class SimpleConvertTest {
     }
 
     @Test
-    void checkSet() {
+    void checkList() {
         SimpleConvert simpleConvert = new SimpleConvert();
         List<String> list = simpleConvert.toList("first", "first", "second", "three", "four", "five");
         assertThat(list).hasSize(6)

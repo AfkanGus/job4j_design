@@ -17,10 +17,38 @@ public class Config {
     }
 
     public void load() {
+        try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
+            in.lines()
+                    .filter(s -> s.length() > 0 && s.charAt(0) != '#')
+                    .filter(this::check)
+                    .forEach(str -> {
+                        String[] map = str.split("=", 2);
+                        values.put(map[0], map[1]);
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String value(String key) {
-        throw new UnsupportedOperationException("Don't impl this method yet!");
+        return values.get(key);
+    }
+
+    private boolean check(String error) {
+        if (error.startsWith("=")) {
+            throw new IllegalArgumentException(
+                    String.format("does not contain a key", error));
+        }
+        if (error.indexOf("=") == error.length() - 1) {
+            throw new IllegalArgumentException(
+                    String.format("does not contain a value", error));
+        }
+        if (!error.contains("=")) {
+            throw new IllegalArgumentException(
+                    String.format("does not contain the symbol \"=\"", error));
+        }
+        return true;
     }
 
     @Override

@@ -35,9 +35,10 @@ class SimpleConvertTest {
                 .endsWith("five")
                 .containsSequence("four", "five");
         assertThat(list).isNotNull()
-                .allgMatch(e -> e.startsWith("first"));
+                .anyMatch(e -> e.startsWith("first"));
         assertThat(list).first().isEqualTo("first");
         assertThat(list).element(0).isNotNull().isEqualTo("first");
         assertThat(list).last().isNotNull().isEqualTo("five");
     }
 }
+

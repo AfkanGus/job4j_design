@@ -4,6 +4,8 @@ import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,6 +41,25 @@ class SimpleConvertTest {
         assertThat(list).first().isEqualTo("first");
         assertThat(list).element(0).isNotNull().isEqualTo("first");
         assertThat(list).last().isNotNull().isEqualTo("five");
+    }
+
+    @Test
+    void checkSet() {
+        SimpleConvert simpleConvert = new SimpleConvert();
+        Set<String> set = simpleConvert.toSet("first", "second", "three", "four", "five");
+        assertThat(set).isNotNull()
+                .hasSize(5);
+    }
+
+    @Test
+    void checkMap() {
+        SimpleConvert simpleConvert = new SimpleConvert();
+        Map<String, Integer> map = simpleConvert.toMap("first", "second", "three", "four", "five");
+        assertThat(map).isNotNull()
+                .hasSize(5)
+                .doesNotContainKey("ten")
+                .doesNotContainValue(10);
+
     }
 }
 

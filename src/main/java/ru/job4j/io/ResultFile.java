@@ -4,7 +4,7 @@ import java.io.FileOutputStream;
 
 public class ResultFile {
     public static void main(String[] args) {
-        try (FileOutputStream out = new FileOutputStream("result.txt")) {
+        try (FileOutputStream out = new FileOutputStream("./data/result.txt")) {
             int[][] array = new int[10][10];
             for (int i = 0; i < array.length; i++) {
                 for (int j = 0; j < array.length; j++) {

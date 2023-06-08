@@ -8,19 +8,24 @@ import java.io.*;
  */
 public class Analysis {
     public void unavailable(String source, String target) {
-        try (BufferedReader in = new BufferedReader(new FileReader(source));
-             BufferedWriter out = new BufferedWriter(new FileWriter(target))) {
-            var builder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(source));
+             PrintWriter writer = new PrintWriter(new FileWriter(target))) {
             String line;
-            while ((line = in.readLine()) != null) {
-                String[] list = line.split(" ");
-                if (builder.length() == 0 && (list[0].equals("400") || list[0].equals("500"))) {
-                    builder.append(list[1]).append(";");
+            boolean unavailable = false;
+            String startTime = "";
+            while ((line = reader.readLine()) != null) {
+                if (line.isEmpty()) {
+                    continue;
                 }
-                if (builder.length() != 0 && (list[0].equals("200") || list[0].equals("300"))) {
-                    out.write(builder.append(list[1]).append(";").toString());
-                    out.newLine();
-                    builder.setLength(0);
+                String[] parts = line.split(" ");
+                String status = parts[0];
+                String time = parts[1];
+                if (!unavailable && (status.equals("400") || status.equals("500"))) {
+                    unavailable = true;
+                    startTime = time;
+                } else if (unavailable && (status.equals("200") || status.equals("300"))) {
+                    unavailable = false;
+                    writer.println(startTime + ";" + time + ";");
                 }
             }
         } catch (IOException ex) {

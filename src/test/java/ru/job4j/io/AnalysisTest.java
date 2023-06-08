@@ -8,7 +8,17 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+/**
+ * Класс AnalysisTest содержит тесты для класса Analysis.
+ */
 class AnalysisTest {
+    /**
+     * Тестирование метода unavailable() класса Analysis.
+     * Проверяет правильность определения периодов недоступности сервера на основе лог-файла.
+     *
+     * @param tempDir временная директория для создания временных файлов
+     * @throws IOException если возникают ошибки ввода-вывода
+     */
     @Test
     void unavailable(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("server.log").toFile();

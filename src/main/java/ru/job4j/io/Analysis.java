@@ -7,6 +7,13 @@ import java.io.*;
  * когда сервер был недоступен на основе кодов состояния.
  */
 public class Analysis {
+    /**
+     * Анализирует файл лога сервера и определяет периоды, когда сервер был недоступен.
+     * Анализ основан на кодах состояния в логе.
+     *
+     * @param source путь к исходному файлу лога
+     * @param target путь к файлу, в который будут записаны результаты
+     */
     public void unavailable(String source, String target) {
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              PrintWriter writer = new PrintWriter(new FileWriter(target))) {

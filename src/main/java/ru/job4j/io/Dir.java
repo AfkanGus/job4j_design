@@ -3,7 +3,6 @@ package ru.job4j.io;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
 /**
  * Класс вывода содержимого директории и размеров файлов.
  */

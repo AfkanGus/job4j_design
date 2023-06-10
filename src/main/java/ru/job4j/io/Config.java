@@ -34,15 +34,15 @@ public class Config {
     private boolean check(String error) {
         if (!error.contains("=")) {
             throw new IllegalArgumentException(
-                    String.format("does not contain the symbol \"=\"", error));
+                    String.format("Line \"%s\" does not contain the symbol \"=\"", error));
         }
         if (error.startsWith("=")) {
             throw new IllegalArgumentException(
-                    String.format("does not contain a key", error));
+                    String.format("Line \"%s\" does not contain a key", error));
         }
         if (error.indexOf("=") == error.length() - 1) {
             throw new IllegalArgumentException(
-                    String.format("does not contain a value", error));
+                    String.format("Line \"%s\" does not contain a value", error));
         }
         return true;
     }

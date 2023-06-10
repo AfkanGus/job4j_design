@@ -23,12 +23,14 @@ public class Dir {
             throw new IllegalArgumentException(String.format("No directory %s", file.getAbsoluteFile()));
         }
         System.out.println(String.format("Directory : %s", file.getAbsolutePath()));
-      for (File subfile : file.listFiles()) {
-            if (subfile.isFile()) {
-                System.out.println(String.format("Name : %s, Size: %d bytes ", subfile.getName(), subfile.length()));
-            } else {
-                System.out.println(String.format("Name: %s", subfile.getName()));
-            }
-        }
+        File[] files = file.listFiles();
+        Arrays.stream(files)
+                .forEach(subfile -> {
+                    if (subfile.isFile()) {
+                        System.out.println(String.format("Name : %s, Size: %d bytes ", subfile.getName(), subfile.length()));
+                    } else {
+                        System.out.println(String.format("Name: %s", subfile.getName()));
+                    }
+                });
     }
 }

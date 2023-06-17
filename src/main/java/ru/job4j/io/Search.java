@@ -44,14 +44,14 @@ public class Search {
      * @throws IllegalArgumentException если переданы некорректные аргументы командной строки.
      */
     public static void validator(String[] args) {
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Программа должна запускаться с двумя параметрами.");
+        }
         if (!Files.exists(Paths.get(args[0])) || !Files.isDirectory(Paths.get(args[0]))) {
             throw new IllegalArgumentException("Первый параметр - путь к существующему каталогу");
         }
         if (!args[1].startsWith(".") || args[1].length() == 1) {
             throw new IllegalArgumentException("Второй параметр - расширение файла, начинающееся с символа '.' и содержащее дополнительные символы.");
-        }
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Программа должна запускаться с двумя параметрами.");
         }
     }
 }

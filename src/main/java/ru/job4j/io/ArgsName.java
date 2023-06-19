@@ -3,6 +3,11 @@ package ru.job4j.io;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Класс ArgsName представляет программу для разбора на пары аргументов командной строки
+ * в формате -key=value (ключ-значение).
+ * Программа представляет пример получать значения, связанные с определенными ключами.
+ */
 public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
@@ -27,18 +32,19 @@ public class ArgsName {
             throw new IllegalArgumentException("Arguments not passed to program");
         }
         for (String arg : args) {
+            if (!arg.startsWith("-")) {
+                throw new IllegalArgumentException("Error: This argument '%s' does not start with a '-' character".formatted(arg));
+            }
+            if (!arg.contains("=")) {
+                throw new IllegalArgumentException("Error: This argument '%s' does not contain an equal sign".formatted(arg));
+            }
             if (arg.indexOf("=") == arg.length() - 1) {
                 throw new IllegalArgumentException("Error: This argument '%s' does not contain a value".formatted(arg));
             }
             if (arg.indexOf("=") == 1) {
                 throw new IllegalArgumentException("Error: This argument '%s' does not contain a key".formatted(arg));
             }
-            if (!arg.contains("=")) {
-                throw new IllegalArgumentException("Error: This argument '%s' does not contain an equal sign".formatted(arg));
-            }
-            if (!arg.startsWith("-")) {
-                throw new IllegalArgumentException("Error: This argument '%s' does not start with a '-' character".formatted(arg));
-            }
+
         }
     }
 

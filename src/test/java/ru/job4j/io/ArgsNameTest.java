@@ -1,30 +1,37 @@
 package ru.job4j.io;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+/**
+ * Класс ArgsNameTest содержит тесты для класса ArgsName,
+ * который представляет программу для разбора аргументов командной строки
+ * на пары.
+ */
 public class ArgsNameTest {
     @Test
     void whenGetFirst() {
-        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
+        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
         assertThat(jvm.get("Xmx")).isEqualTo("512");
     }
 
     @Test
     void whenGetFirstReorder() {
-        ArgsName jvm = ArgsName.of(new String[] {"-encoding=UTF-8", "-Xmx=512"});
+        ArgsName jvm = ArgsName.of(new String[]{"-encoding=UTF-8", "-Xmx=512"});
         assertThat(jvm.get("Xmx")).isEqualTo("512");
     }
 
     @Test
     void whenMultipleEqualsSymbol() {
-        ArgsName jvm = ArgsName.of(new String[] {"-request=?msg=Exit="});
+        ArgsName jvm = ArgsName.of(new String[]{"-request=?msg=Exit="});
         assertThat(jvm.get("request")).isEqualTo("?msg=Exit=");
     }
 
     @Test
     void whenKeyNotExist() {
-        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512"});
+        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512"});
         assertThatThrownBy(() -> jvm.get("Xms")).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining("This key: 'Xms' is missing");
@@ -32,7 +39,7 @@ public class ArgsNameTest {
 
     @Test
     void whenKeyGetNotExist2() {
-        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512"});
+        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512"});
         assertThatThrownBy(() -> jvm.get("Xss")).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining("This key: 'Xss' is missing");

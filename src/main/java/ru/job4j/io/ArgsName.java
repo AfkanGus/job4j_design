@@ -9,7 +9,7 @@ import java.util.Map;
  * Программа представляет пример получать значения, связанные с определенными ключами.
  */
 public class ArgsName {
-    private final Map<String, String> values = new HashMap<>();
+    public final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
         if (!values.containsKey(key)) {

@@ -1,11 +1,10 @@
 package ru.job4j.io;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,28 +30,24 @@ public class Zip {
         }
     }
 
-    private static void validateZip(List<String> args) {
-        if (args.size() != 3) {
-            throw new IllegalArgumentException("Set all arguments");
+    public static void validateZip(ArgsName args) throws IOException {
+        if (!Files.exists(Paths.get(args.get("d")))) {
+            throw new IllegalArgumentException(String.format("Not exist %s", args.get("d")));
         }
-        if (!Files.exists(Paths.get(args.get(0)))) {
-            throw new IllegalArgumentException(String.format("Not exist %s", args.get(0)));
-        }
-        if (!Files.isDirectory(Paths.get(args.get(0)))) {
-            throw new IllegalArgumentException(String.format("Not directory %s", args.get(0)));
+        if (!Files.isDirectory(Paths.get(args.get("d")))) {
+            throw new IllegalArgumentException(String.format("Not directory %s", args.get("d")));
         }
     }
 
     public static void main(String[] args) throws IOException {
-        Zip zipArchive = new Zip();
-        Map<String, String> arguments = ArgsName.of(args).values;
-        List<String> values = new ArrayList<>();
-        for (Map.Entry<String, String> argEntry : arguments.entrySet()) {
-            values.add(argEntry.getValue());
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Error: wrong number of arguments");
         }
-        validateZip(values);
-        List<Path> files = Search.search(Paths.get(values.get(0)), (s -> !s.toFile().getName().endsWith(values.get(1))));
-        zipArchive.packFiles(files, Paths.get(values.get(2)).toFile());
+        ArgsName argsName = ArgsName.of(args);
+        validateZip(argsName);
+        Path root = Paths.get(argsName.get("d"));
+        new Zip().packFiles(Search.search(root, s -> !s.toFile().getName().endsWith(argsName.get("e"))),
+                new File(argsName.get("o")));
     }
 }
 

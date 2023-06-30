@@ -27,12 +27,12 @@ public class ConsoleChat {
             System.out.println("Спроси, где Бот?");
             String input = scanner.nextLine();
             chatLog.add(input);
-            while (!input.equals(OUT)) {
-                if (input.equals(STOP)) {
-                    chatLog.add(STOP);
+            while (!OUT.equals(input)) {
+                if (STOP.equals(input)) {
+                    chatLog.add(input);
                     input = scanner.nextLine();
                     chatLog.add(input);
-                    while (!input.equals(CONTINUE)) {
+                    while (!CONTINUE.equals(input) && !OUT.equals(input)) {
                         input = scanner.nextLine();
                         chatLog.add(input);
                     }
@@ -50,7 +50,7 @@ public class ConsoleChat {
     private List<String> readPhrases() {
         List<String> list = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(
-                new FileReader("./data/chat_bot_answers.txt"))) {
+                new FileReader(path))) {
             String line;
             while ((line = in.readLine()) != null) {
                 list.add(line);
@@ -62,7 +62,7 @@ public class ConsoleChat {
     }
 
     private void saveLog(List<String> log) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("./data/chat_save_log.txt",
+        try (PrintWriter pw = new PrintWriter(new FileWriter(botAnswers,
                 StandardCharsets.UTF_8, true))) {
             log.forEach(pw::println);
 

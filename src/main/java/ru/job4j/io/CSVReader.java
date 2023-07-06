@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class CSVReader {
     public static void handle(ArgsName argsName) throws Exception {
@@ -14,46 +12,45 @@ public class CSVReader {
         String delimiter = argsName.get("delimiter");
         String out = argsName.get("out");
         String[] filters = argsName.get("filter").split(",");
-        Integer[] indexes = new Integer[filters.length];
+        Integer[] columnIndices = new Integer[filters.length];
         Map<String, Integer> map = new HashMap<>();
         try (Scanner scanner = new Scanner(new FileInputStream(argsName.get("path")))) {
             if (scanner.hasNext()) {
                 /*разделим первую строку файла на отдельные заголовки столбцов*/
                 String[] columHeaders = scanner.nextLine().split(delimiter);
-                if (scanner.hasNextLine()) {
-                    String[] headers = scanner.nextLine().split(delimiter);
-                    for (String header : headers) {
-                        map.put(header, map.size());
-                    }
-                    for (String filter : filters) {
-                        Integer index = map.get(filter);
-                        indexes[i] = index;
-                        builder.append(filter);
-                        if (filter.equals(filters[filters.length - 1])) {
-                            break;
-                        }
-                        builder.append(delimiter);
-                    }
-                    builder.append(System.lineSeparator());
+                /*по columHeaders */
+                for (int i = 0; i < columHeaders.length; i++) {
+                    map.put(columHeaders[i], i);
                 }
-                while (scanner.hasNextLine()) {
-                    String[] tempLine = scanner.nextLine().split(delimiter);
-                    for (int i = 0; i < indexes.length; i++) {
-                        String temp = tempLine[indexes[i]];
-                        if (i == filters.length - 1) {
-                            builder.append(temp);
-                            break;
-                        }
-                        builder.append(delimiter);
+                /* по filters*/
+                for (int j = 0; j < filters.length; j++) {
+                    String filterValue = filters[j];
+                    columnIndices[j] = map.get(filterValue);
+                    if (j == filters.length - 1) {
+                        builder.append(filterValue);
+                        break;
                     }
-                    builder.append(System.lineSeparator());
-                    if ("stdout".equals(out)) {
-                        System.out.print(builder);
-                    } else {
-                        try (PrintWriter writer = new PrintWriter(out)) {
-                            writer.print(builder);
-                        }
+                    builder.append(filterValue + delimiter);
+                }
+                builder.append(System.lineSeparator());
+            }
+            while (scanner.hasNextLine()) {
+                String[] lineValues = scanner.nextLine().split(delimiter);
+                for (int i = 0; i < columnIndices.length; i++) {
+                    String temp = lineValues[columnIndices[i]];
+                    if (i == filters.length - 1) {
+                        builder.append(temp);
+                        break;
                     }
+                    builder.append(temp + delimiter);
+                }
+                builder.append(System.lineSeparator());
+            }
+            if ("stdout".equals(out)) {
+                System.out.print(builder);
+            } else {
+                try (PrintWriter writer = new PrintWriter(out)) {
+                    writer.print(builder);
                 }
             }
         } catch (IOException e) {
@@ -61,14 +58,25 @@ public class CSVReader {
         }
     }
 
-    private static void validate(ArgsName name) {
-
-    }
-
     public static void main(String[] args) throws Exception {
         ArgsName argsName = ArgsName.of(args);
-
-        validate(argsName);
+        String directory = argsName.get("path");
+        String delimiter = argsName.get("delimiter");
+        String output = argsName.get("out");
+        String filter = argsName.get("filter");
+        File file = new File(directory);
+        if (!file.exists()) {
+            throw new IllegalArgumentException(String.format("File does not exist: %s", file.getAbsoluteFile()));
+        }
+        if (!";".equals(delimiter)) {
+            throw new IllegalArgumentException("Invalid delimiter: ");
+        }
+        if (!("stdout".equals(output) || (output.length() >= 5 && output.endsWith(".csv")))) {
+            throw new IllegalArgumentException("Invalid output file name");
+        }
+        if ("".equals(filter)) {
+            throw new IllegalArgumentException("Invalid filter: ");
+        }
         handle(argsName);
     }
 }

@@ -32,7 +32,7 @@ public class ConsoleDemo {
          *  не будут отображаться на консоли в целях безопасности.
          *  Сохраняет данные в char[] - массив байтов.
          */
-        charPassword = console.readPassword("%s", "Введите пароль:");
+        charPassword = console.readPassword("%s", "Enter пароль : ");
         System.out.println("Ваш пароль" + String.valueOf(charPassword));
         /*метод fill() затирает все данные в массиве пробелами:*/
         Arrays.fill(charPassword, ' ');

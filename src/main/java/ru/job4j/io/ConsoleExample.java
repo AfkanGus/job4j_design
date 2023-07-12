@@ -3,7 +3,8 @@ package ru.job4j.io;
 import java.io.Console;
 
 /**
- * Обратите внимание, что при запуске программы из среды разработки доступ к объекту Console может быть недоступен
+ * Обратите внимание, что при запуске программы из
+ * среды разработки доступ к объекту Console может быть недоступен
  */
 public class ConsoleExample {
     public static void main(String[] args) {

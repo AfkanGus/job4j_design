@@ -10,8 +10,9 @@ public class ConsoleDemo {
     public static void main(String[] args) {
         String login;
         char[] charPassword;
-        Console console = System.console(); // получаем объект консоли
-        if (console == null) { /* Данная проверка обязательна, так как программа может
+        Console console = System.console(); /*получаем объект консоли*/
+        if (console == null) {
+            /* Данная проверка обязательна, так как программа может
          быть запущена из разных мест, соответственно, нужно удостовериться, что из
          этого места есть доступ к консоли (командной строке).*/
             System.out.println("Консоль недоступна");

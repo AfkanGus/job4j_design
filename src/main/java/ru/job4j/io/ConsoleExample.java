@@ -37,7 +37,7 @@ public class ConsoleExample {
              связанный с консолью
              */
             console.writer().println("Просто строка на консоли");
-            // Очистка консоли
+            /* Очистка консоли*/
             console.flush();
         } else {
             System.out.println("Консоль не доступна.");

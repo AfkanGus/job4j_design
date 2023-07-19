@@ -32,9 +32,14 @@ public class EchoServer {
                     }
                     /*Проверяем наличие строки "?msg=Bye" в запросе от клиента*/
                     boolean isByeMessage = reqFromClient.toString().contains("?msg=Bye");
-                    String isResponseMessage = isByeMessage ? "Server is closing!" : "Server did not close, please try again.!";
+                    String isResponseMessage =
+                            isByeMessage ? "Server is closing!" : "Server did not close, check the string.";
                     outputStream.write(("HTTP/1.1 200 OK\r\n\r\n" + isResponseMessage).getBytes());
                     outputStream.flush();
+                    /*Закроем сокет сервер*/
+                    if (isByeMessage) {
+                        serverSocket.close();
+                    }
                 }
             }
         }

@@ -1,0 +1,42 @@
+package ru.job4j.io;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class EchoServer {
+    public static void main(String[] args) throws IOException {
+        /*создаем сервер*/
+        try (ServerSocket serverSocket = new ServerSocket(9000)) {
+            while (!serverSocket.isClosed()) {
+                /*Ждем клиента и принимаем его сокет*/
+                Socket socket = serverSocket.accept();
+                /*получаем поток для отправки данных клиенту*/
+                try (OutputStream outputStream = socket.getOutputStream();
+                        /*Получаем поток для чтения данных ОТ клиента*/
+                     BufferedReader in = new BufferedReader(
+                             new InputStreamReader(socket.getInputStream())
+                     )) {
+                    /*Создаем StringBuilder для хранения запроса от клиента*/
+                    StringBuilder reqFromClient = new StringBuilder();
+                    /*Отправляем клиенту HTTP-ответ с кодом 200 OK*/
+                    outputStream.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                    /*Читаем данные от клиента построчно, пока не получим пустую строку*/
+                    for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
+                        System.out.println(str);
+                        /*сохраняем запрос в StringBuilder*/
+                        reqFromClient.append(str).append("\r\n");
+                    }
+                    /*Проверяем наличие строки "?msg=Bye" в запросе от клиента*/
+                    boolean isByeMessage = reqFromClient.toString().contains("?msg=Bye");
+                    String isResponseMessage = isByeMessage ? "Server is closing!" : "Server did not close, please try again.!";
+                    outputStream.write(("HTTP/1.1 200 OK\r\n\r\n" + isResponseMessage).getBytes());
+                    outputStream.flush();
+                }
+            }
+        }
+    }
+}

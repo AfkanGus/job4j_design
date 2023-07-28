@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 3. Бот [#7921 # [#7921].
  * Этот класс представляет простого HTTP-бота (EchoBot).
@@ -14,7 +17,9 @@ import java.net.Socket;
  * В остальных случаях сервер отвечает "What".
  */
 public class EchoSerBot {
-    public static void main(String[] args) throws IOException {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EchoSerBot.class.getName());
+
+    public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(9000)) {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
@@ -44,6 +49,8 @@ public class EchoSerBot {
                     outputStream.flush();
                 }
             }
+        } catch (Exception e) {
+            LOGGER.error("Произошла ошибка при работе с серверным сокетом: ", e);
         }
     }
 }

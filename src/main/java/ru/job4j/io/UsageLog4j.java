@@ -1,12 +1,15 @@
 package ru.job4j.io;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Класс деманстрирует записи логов в соответствующий лог-файл или
  * другой назначенный источник логирования, в зависимости от настроек Log4j
  * <p>
+ * Библиотека SLF4J (Simple Logging Facade for Java) для настройки и управления логированием.
+ * LoggerFactory -  это утилитный класс из SLF4J, который предоставляет методы для получения экземпляров Logger.
+ * Это фабрика логгеров, которая помогает создавать логгеры для различных классов в приложении.
  * LogManager отвечает за создание и настройку логгеров.
  * Logger предоставляет методы для записи логов разного уровня.
  * LOG - статическая константа LOG, которая будет использоваться для записи логов.
@@ -19,7 +22,7 @@ import org.apache.log4j.Logger;
  * Уровень ERROR используется для сообщений об ошибках или исключительных ситуациях.
  */
 public class UsageLog4j {
-    private static final Logger LOG = LogManager.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
         /* Эта строка записывает лог сообщения с разными уровнями*/

@@ -47,9 +47,10 @@ public class EchoSerBot {
                     }
                     outputStream.write(("HTTP/1.1 200 OK\r\n\r\n" + response).getBytes());
                     outputStream.flush();
+                    throw new IOException("exception");
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.error("Произошла ошибка при работе с серверным сокетом: ", e);
         }
     }

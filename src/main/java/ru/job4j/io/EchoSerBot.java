@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
  */
 public class EchoSerBot {
     private static final Logger LOGGER = LoggerFactory.getLogger(EchoSerBot.class.getName());
-
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(9000)) {
             while (!serverSocket.isClosed()) {

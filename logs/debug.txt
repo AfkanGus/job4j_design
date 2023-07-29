@@ -1,6 +1,3 @@
-2023-07-29 09:44:34,431 ERROR ru.job4j.io.EchoSerBot:main:54 - ��������� ������ ��� ������ � ��������� �������: 
+2023-07-29 09:57:55,719 ERROR ru.job4j.io.EchoSerBot:main:53 - Произошла ошибка при работе с серверным сокетом: 
 java.io.IOException: exception
-	at ru.job4j.io.EchoSerBot.main(EchoSerBot.java:50)
-2023-07-29 09:54:47,064 ERROR ru.job4j.io.EchoSerBot:main:54 - Произошла ошибка при работе с серверным сокетом: 
-java.io.IOException: exception
-	at ru.job4j.io.EchoSerBot.main(EchoSerBot.java:50)
+	at ru.job4j.io.EchoSerBot.main(EchoSerBot.java:49)

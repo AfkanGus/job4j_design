@@ -1,0 +1,31 @@
+package ru.job4j.serialization.json;
+
+import java.util.Arrays;
+
+/**
+ * 2. Формат JSON [#313164  [#313164]].
+ * Класс Person представляет объект, который содержит информацию о пользователе.
+ */
+public class Person {
+    private final boolean sex;
+    private final int age;
+    private final Contact contact;
+    private final String[] statuses;
+
+    public Person(boolean sex, int age, Contact contact, String[] statuses) {
+        this.sex = sex;
+        this.age = age;
+        this.contact = contact;
+        this.statuses = statuses;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{"
+                + "sex=" + sex
+                + ", age=" + age
+                + ", contact=" + contact
+                + ", statuses=" + Arrays.toString(statuses)
+                + '}';
+    }
+}

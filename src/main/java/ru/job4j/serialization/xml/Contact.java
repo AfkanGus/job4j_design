@@ -1,5 +1,8 @@
 package ru.job4j.serialization.xml;
 
+/**
+ * 3. Формат XML [#313165 # [#313165].
+ */
 public class Contact {
     private final String phone;
 

@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<boeing>
+    <isPassengerPlane>true</isPassengerPlane>
+    <maxSpeed>900</maxSpeed>
+    <model>Boeing 737</model>
+    <engine>
+        <type>Турбовентиляторный</type>
+        <thrust>28000</thrust>
+    </engine>
+    <availableClasses>
+        <class>Эконом</class>
+        <class>Бизнесс</class>
+        <class>Первый класс</class>
+    </availableClasses>
+</boeing>

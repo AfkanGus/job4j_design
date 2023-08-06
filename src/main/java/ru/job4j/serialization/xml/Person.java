@@ -1,22 +1,36 @@
 package ru.job4j.serialization.xml;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.StringWriter;
+import java.util.Arrays;
+
 /**
- * 3. Формат XML [#313165 # [#313165].
+ * 4. JAXB. Преобразование XML в POJO. [#315063 # [#315063].
  */
+@XmlRootElement(name = "person")
 public class Person {
-    private final boolean sex;
-    private final int age;
-    private final Contact contact;
-    private final String worker;
-    private final String married;
+    @XmlAttribute
+    private boolean sex;
 
+    @XmlAttribute
+    private int age;
 
-    public Person(boolean sex, int age, Contact contact, String worker, String married) {
+    private Contact contact;
+
+    private String[] statuses;
+
+    public Person() {
+    }
+
+    public Person(boolean sex, int age, Contact contact, String... statuses) {
         this.sex = sex;
         this.age = age;
         this.contact = contact;
-        this.worker = worker;
-        this.married = married;
+        this.statuses = statuses;
     }
 
     @Override
@@ -24,6 +38,26 @@ public class Person {
         return "Person{"
                 + "sex=" + sex
                 + ", age=" + age
-                + ", contact=" + contact;
+                + ", contact=" + contact
+                + ", statuses=" + Arrays.toString(statuses)
+                + '}';
+    }
+
+    public static void main(String[] args) throws JAXBException {
+
+        final Person person = new Person(false, 30, new Contact("11-111"), "Worker", "Married");
+
+        JAXBContext context = JAXBContext.newInstance(Person.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(person, writer);
+            String result = writer.getBuffer().toString();
+            System.out.println(result);
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+        }
     }
 }

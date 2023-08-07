@@ -42,22 +42,4 @@ public class Person {
                 + ", statuses=" + Arrays.toString(statuses)
                 + '}';
     }
-
-    public static void main(String[] args) throws JAXBException {
-
-        final Person person = new Person(false, 30, new Contact("11-111"), "Worker", "Married");
-
-        JAXBContext context = JAXBContext.newInstance(Person.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-        try (StringWriter writer = new StringWriter()) {
-            marshaller.marshal(person, writer);
-            String result = writer.getBuffer().toString();
-            System.out.println(result);
-        } catch (
-                Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

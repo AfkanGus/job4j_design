@@ -1,0 +1,6 @@
+
+create table position(
+id serial primary key ,
+nam varchar(255)
+);
+

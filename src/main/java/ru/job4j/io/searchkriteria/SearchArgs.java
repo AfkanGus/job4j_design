@@ -90,15 +90,20 @@ public class SearchArgs {
         return resultFiles;
     }
 
-    /**
-     * Метод производит поиск файда(-ов) по полному совпадению названия.
-     *
-     * @param parent Путь к каталогу, с которого осуществляется поиск.
-     * @param name   Имя файла.
-     * @return Список файлов.
-     */
     public List<File> searchByName(String parent, String name) {
-        return filesDirectory(parent, (file) -> name.equals(file.getName().split("\\.")[0]));
+        // return filesDirectory(parent, (file) -> name.equals(file.getName().split("\\.")[0]));
+
+        // Создаем предикат для проверки по имени
+        Predicate<File> predicate = new Predicate<File>() {
+            @Override
+            public boolean test(File file) {
+                String fileName = file.getName();
+                int extensionIndex = fileName.lastIndexOf('.');
+                String nameWithoutExtension = extensionIndex >= 0 ? fileName.substring(0, extensionIndex) : fileName;
+                return name.equals(nameWithoutExtension);
+            }
+        };
+        return filesDirectory(parent, predicate);
     }
 }
 

@@ -1,5 +1,4 @@
 package ru.job4j.io.searchkriteria;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

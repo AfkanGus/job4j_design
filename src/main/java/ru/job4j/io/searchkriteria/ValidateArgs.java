@@ -34,10 +34,6 @@ public class ValidateArgs {
         }
     }
 
-    /**
-     * Запуск программы производился со следующими параметрами:
-     * -d c:/projects/job4j -n *.txt -m -o log.txt
-     */
     public static void main(String[] args) {
         ValidateArgs ff = new ValidateArgs();
         if (ff.validate(args)) {

@@ -1,6 +1,5 @@
 package ru.job4j.io.searchkriteria;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,14 +22,14 @@ public class CommandLineArgs {
                 String value = null;
                 if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
                     value = args[i + 1];
-                    i++; // Пропустить следующий элемент, так как он уже использован как значение
+                    i++;
                 }
                 commandLineArguments.put(key, value);
             }
         }
     }
 
-    public String getDirectory() {
+   /* public String getDirectory() {
         return commandLineArguments.get("-d");
     }
 
@@ -45,11 +44,10 @@ public class CommandLineArgs {
                 String value = null;
                 if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
                     value = args[i + 1];
-                    i++; // Пропустить следующий элемент, так как он уже использован как значение
+                    i++;
                 }
-                key = key.substring(1); // Убираем символ "-" из ключа
-                commandLineArguments.put(key, value); // Помещаем пару ключ-значение в Map
+                key = key.substring(1);
+                commandLineArguments.put(key, value);
             }
-        }
-    }
+        }*/
 }

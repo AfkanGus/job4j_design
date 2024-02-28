@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CSVReaderTest {
+
     @Test
     void whenFilterTwoColumns(@TempDir Path folder) throws Exception {
         String data = String.join(

@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class CSVReader {
     public static void handle(ArgsName argsName) throws Exception {
@@ -80,5 +82,3 @@ public class CSVReader {
         handle(argsName);
     }
 }
-
-

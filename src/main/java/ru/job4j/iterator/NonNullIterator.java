@@ -35,6 +35,11 @@ public class NonNullIterator implements Iterator<Integer> {
         }
         return data[index++];
     }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("This method is not supported");
+    }
 }
    /* private final Iterator<Integer> iterator;
 

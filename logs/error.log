@@ -1,0 +1,4 @@
+error message
+Произошло исключение: 
+java.lang.NullPointerException: Cannot invoke "String.length()" because "str" is null
+	at ru.job4j.io.UsageLog4jSlf4j.main(UsageLog4jSlf4j.java:33)

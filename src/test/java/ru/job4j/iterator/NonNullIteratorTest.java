@@ -10,6 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * 5. Итератор не-null значений [#505081]
+ */
 class NonNullIteratorTest {
     private Iterator<Integer> iterator;
 

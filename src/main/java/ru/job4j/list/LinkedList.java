@@ -56,5 +56,6 @@ public class LinkedList<E> {
         list.add("ONe");
         list.add("Two");
     }
+
 }
 

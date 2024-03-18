@@ -136,6 +136,7 @@ insert into users values (2, 'email_2@bk.ru', 'second_name', 2);
 --для идентификации столбцов указывать псевдоним необходимо только там, где имена столбцов совпадают.
 select a.id,a.email,a.password, u.email,u.name from accounts as a inner join users u on a.id = u.account_id;
 
+
 ----3. Фильтры [#1732].
 create table type(
 id int primary key,
@@ -184,3 +185,122 @@ select t.name as Тип_товара from product p join type t on p.type_id = t
 --8. Вывести все продукты и их тип.
 select  p.name Наименования_товара, p.price Цена_товара, p.expired_date Срок_годности_товара, t.name Тип_товара
  from product p join type t on p.type_id = t.id;
+
+---6. INNER JOIN. Объединение трех и более таблиц.
+create table users(
+id int primary key,
+email text,
+"name" text
+);
+create table accounts(
+id int primary key,
+login text,
+password text,
+user_id int references users(id)
+);
+insert into users values (1, 'email_1@mail.ru', 'first_name');
+insert into users values (2, 'email_2@bk.ru', 'second_name');
+
+insert into accounts values (1, 'login_1', '12345', 1);
+insert into accounts values (2, 'login_2', '67890', 2);
+-- SELECT запроса с использование INNER JOIN
+select u.id,u.email,u.name, a.id,a.login,a.password from users u  join accounts a on u.id = a.user_id;
+
+create table payment(
+id int primary key,
+amount decimal,
+payment_data date,
+account_id int references  accounts(id)
+);
+insert into payment values (1, 100.0, '2022-09-09', 1);
+insert into payment values (2, 200.0, '2022-08-08', 2);
+-- чтобы соединить 3 таблицы, необходимо поместить второе предложение INNER JOIN после первого предложения INNER JOIN
+-- запрос объединения трех таблиц. В результатах выборки должны быть отражены значения столбцов id из таблицы users,
+--email, name, login, password, amount, payment_date. Объединять будем по столбцам id из таблицы users и user_id,
+--id из таблицы accounts и account_id. В качестве псевдонимов используйте первые буквы названия таблиц.
+select u.id,u.email,u.name,a.login,a.password, p.amount, p.payment_data
+from users u
+join accounts a on u.id = a.user_id
+join payment p on a.id = p.account_id;
+
+--7. LEFT JOIN 1.
+create table colors (
+    id int primary key,
+    "name" text
+);
+
+create table actions (
+    number int primary key,
+    description text,
+    color_id int references colors(id)
+);
+insert into colors values(1, 'red');
+insert into colors values(2, 'white');
+insert into colors values(3, 'black');
+insert into colors values(4, 'purple');
+
+insert into actions values (1, 'draw red', 1);
+insert into actions values (2, 'use black hole', 2);
+--чтобы сделать выборку данных из таблицы А, которые могут иметь или не иметь соответствующие строки в
+--таблице В, то необходимо использовать предложение LEFT JOIN.
+--В выборке должны быть отражены значения столбцов id, name, number, description.
+--Объединение будет производиться по столбцам id и color_id.
+select id,name,number,description from colors left join actions on id=color_id;
+
+--Каким же образом это работает?
+-- предложение RIGHT JOIN начинает выборку данных из правой таблицы – actions;
+-- для каждой строки из правой таблицы (actions) RIGHT JOIN проверяет, равно ли значение color_id столбце таблицы actions значению в столбце id каждой строки из левой таблицы (colors);
+-- если указанные значения равны, то RIGHT JOIN создает новую строку, которая содержит значения столбцов из обеих таблиц, которые указаны в SELECT и включает эту строку в результаты выборки;
+-- если же указанные значения не равны, то RIGHT JOIN все равно создает новую строку, которая содержит столбцы из обеих таблиц и эта новая
+--строка включается в результаты выборки. Однако в таком случае столбцы из левой таблицы colors значением NULL.
+-- таким образом, RIGHT JOIN выбирает все строки из правой таблицы независимо от того, есть ли у них совпадающие строки из левой таблицы.
+select c.id,c.name,a.number,a.description from colors c right join actions a on c.id=a.color_id;
+
+
+
+
+create table accounts (
+    id int primary key,
+    email text,
+    password text
+);
+
+create table users (
+    id int primary key,
+    email text,
+    "name" text,
+    account_id int references accounts(id)
+);
+insert into accounts values (1, 'some_for_auth_1@mail.ru', '1_3_5');
+insert into accounts values (2, 'some_for_auth_1@bk.ru', '6%8%0');
+insert into accounts values (3, 'for_auth_1@mail.ru', '12345');
+insert into accounts values (4, 'for_auth_1@bk.ru', '67890');
+
+insert into users values (1, 'email_1@mail.ru', 'first_name', 3);
+insert into users values (2, 'email_2@bk.ru', 'second_name', 4);
+--напишите запрос с использованием LEFT JOIN. Левая таблица – таблица accounts. Объединение осуществляется по
+--столбцам id из таблицы accounts и account_id. В результатах выборки должны быть отражены значения столбцов
+--id из таблицы accounts, email из таблицы accounts, password, id из таблицы users, email из таблицы users, name.
+--В качестве псевдонимов используйте первую букву названия таблиц.
+select a.id, a.email, a.password, u.id, u.email,u.name from accounts a left join users u on a.id = u.account_id;
+
+--1. GROUP BY 1
+-- вычислит средний балл студентов по каждому предмету. Таблица "Оценки" содержит поля: студент, предмет, оценка. Группировка будет по subject.
+create table students(
+id int,
+subject varchar(50),
+grade int
+);
+insert into students values(1,'Math',85),   (1, 'Physics', 90),
+       (2, 'Math', 78),
+       (2, 'Physics', 88),
+       (3, 'Math', 92),
+       (3, 'Physics', 95);
+  select subject, avg(grade) from students group by subject;
+--Необходимо учесть - любой столбец, который указан в SELECT (столбец, который хранит результат вычисления агрегатных функций, не считается), должен быть указан после GROUP BY.
+select id,sum(grade) from students group by id;
+
+
+
+
+

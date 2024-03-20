@@ -103,8 +103,22 @@ create table engines (
 
 insert into cars values (1, 'Toyota Camry');
 insert into cars values (2, 'Renault Sandero');
+INSERT INTO cars VALUES (3, 'Audi A6');
+INSERT INTO cars VALUES (4, 'Renault Sandero');
 insert into engines values (1234, 2.5, 181, 1);
 insert into engines values (5678, 1.2, 75, 2);
+INSERT INTO engines VALUES (1479, 1.6, 123, null);
+INSERT INTO engines VALUES (5072, 3.0, 231, null);
+--RIGHT--
+select id, model, number, volume, power from cars right join engines on cars.id=engines.car_id;
+select * from cars c full join engines e on c.id=e.car_id;
+
+
+
+
+
+
+
 -- выполнит выборку всех строк, в результатах должны быть отражены данные столбцов id,
  --model, volume, power, связь между таблицами осуществляется с помощью столбцов id  и car_id.
 select id,model,volume,power from cars inner join engines on cars.id = engines.car_id;
@@ -115,6 +129,11 @@ select id,model,volume,power from cars inner join engines on cars.id = engines.c
 --Важно подчеркнуть, что согласно документации, если не указано иного по умолчанию выполняется INNER JOIN.
  --Т.е. слово INNER в запросе можно опустить, и мы получим аналогичный результат. Таким образом, представленный выше запрос будет иметь вид:
 select c.id,c.model,e.volume,e.power from cars as c join engines e on c.id = e.car_id;
+
+
+
+
+
 
 -------------------------------------------------------------------------------------------------------------------
 
@@ -140,6 +159,7 @@ insert into users values (2, 'email_2@bk.ru', 'second_name', 2);
 --для идентификации столбцов указывать псевдоним необходимо только там, где имена столбцов совпадают.
 select a.id,a.email,a.password, u.email,u.name from accounts as a inner join users u on a.id = u.account_id;
 
+select a.id,a.email,a.password,u.id,u.email,u.name from accounts a right join users u on a.id=u.account_id;
 
 ----3. Фильтры [#1732].
 create table type(
@@ -250,7 +270,7 @@ insert into actions values (2, 'use black hole', 2);
 --В выборке должны быть отражены значения столбцов id, name, number, description.
 --Объединение будет производиться по столбцам id и color_id.
 select id,name,number,description from colors left join actions on id=color_id;
-
+select * from colors c full join actions a on c.id=a.color_id;
 
 ---RIGHT JOIN--
 --Каким же образом это работает?
@@ -321,3 +341,38 @@ insert into subjects values(3, 'Sociology', 65, current_date);
 insert into subjects values(4, 'Economics', 60, current_date);
 insert into subjects values(5, 'Computer Science', 70, current_date);
 select * from subjects where grade in (50,60,70);
+
+
+--FULL OUTER JOIN--
+CREATE TABLE departments (
+    id int primary key,
+    "name" text not null
+);
+
+CREATE TABLE employees (
+    id int primary key,
+    "name" text,
+    department_id int references departments(id)
+);
+--Для представленной ниже схемы напишите запрос с использованием FULL OUTER JOIN. Результирующий
+ --набор должен включать всех сотрудников, принадлежащих отделу, и всех отделов, в которых есть сотрудник.
+--Кроме того, результат должен включать каждого сотрудника, не принадлежащего отделу, и каждый отдел, в котором нет
+ --сотрудников. В результат отражаем значения столбцов name из каждой таблицы. Левая таблица – employees, правая – departments.
+INSERT INTO departments VALUES (1, 'Sales'),
+                               (2, 'Marketing'),
+                               (3, 'HR'),
+                               (4, 'IT'),
+                               (5, 'Production');
+
+INSERT INTO employees VALUES (1, 'Ivan Ivanov', 1),
+                             (2, 'Petr Petrov', 1),
+                             (3, 'Olga Sergeeva', 2),
+                             (4, 'Michael Shnurov', 3),
+                             (5, 'Irina Trubkina', 4),
+                             (6, 'Evgenii Shtukov', null);
+select e.name,d.name from employees e full join departments d on e.department_id=d.id;
+
+
+
+
+

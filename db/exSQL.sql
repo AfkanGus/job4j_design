@@ -30,7 +30,8 @@ select purpose, max(amount) from transactions group by purpose;
 select min(amount) from transactions;
 --найдет минимальное значение в столбце amount для каждой группы данных - они должны быть сгруппированы по столбцу purpose.
 select purpose, min(amount) from transactions group by purpose;
-
+--WHERE--
+select * from transactions where  purpose != 'Vacation' and amount < 150;
 
 ---WHERE--
 create table account(
@@ -67,6 +68,9 @@ select * from customers where  id <= 3;
 select * from customers where length(last_name) != 8;
 --условиям - длина строки в столбце first_name должна быть больше или равна 5 И значение в столбце active равно false.
 select * from customers where length(first_name) >= 5 and acitve = false;
+select * from customers where id > 3 or acitve = false;
+
+select * from customers where first_name in('Ann','Anne','Annie');
 
 --JOIN--
 --чтобы получить данные из нескольких таблиц, используется INNER JOIN.
@@ -247,6 +251,8 @@ insert into actions values (2, 'use black hole', 2);
 --Объединение будет производиться по столбцам id и color_id.
 select id,name,number,description from colors left join actions on id=color_id;
 
+
+---RIGHT JOIN--
 --Каким же образом это работает?
 -- предложение RIGHT JOIN начинает выборку данных из правой таблицы – actions;
 -- для каждой строки из правой таблицы (actions) RIGHT JOIN проверяет, равно ли значение color_id столбце таблицы actions значению в столбце id каждой строки из левой таблицы (colors);
@@ -297,10 +303,21 @@ insert into students values(1,'Math',85),   (1, 'Physics', 90),
        (3, 'Math', 92),
        (3, 'Physics', 95);
   select subject, avg(grade) from students group by subject;
---Необходимо учесть - любой столбец, который указан в SELECT (столбец, который хранит результат вычисления агрегатных функций, не считается), должен быть указан после GROUP BY.
+--Необходимо учесть - любой столбец, который указан в SELECT (столбец, который хранит результат
+--вычисления агрегатных функций, не считается), должен быть указан после GROUP BY.
 select id,sum(grade) from students group by id;
 
 
-
-
-
+--WHERE--
+create table subjects(
+id int not null primary key,
+"name" text,
+grade int,
+start_data timestamp
+);
+insert into subjects values(1, 'Math', 50, current_date);
+insert into subjects values(2, 'English', 75, current_date);
+insert into subjects values(3, 'Sociology', 65, current_date);
+insert into subjects values(4, 'Economics', 60, current_date);
+insert into subjects values(5, 'Computer Science', 70, current_date);
+select * from subjects where grade in (50,60,70);

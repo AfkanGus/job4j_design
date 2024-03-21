@@ -367,12 +367,20 @@ INSERT INTO departments VALUES (1, 'Sales'),
 INSERT INTO employees VALUES (1, 'Ivan Ivanov', 1),
                              (2, 'Petr Petrov', 1),
                              (3, 'Olga Sergeeva', 2),
-                             (4, 'Michael Shnurov', 3),
+                             (4, 'Michael Shnurov', 3),nu
                              (5, 'Irina Trubkina', 4),
                              (6, 'Evgenii Shtukov', null);
 select e.name,d.name from employees e full join departments d on e.department_id=d.id;
-
-
-
-
-
+CREATE TABLE orders
+(
+    id           INT PRIMARY KEY,
+    number_month INT,
+    amount       INT
+);
+INSERT INTO orders
+VALUES (1, 1, 100),
+       (2, 2, 150),
+       (3, 1, 200),
+       (4, 2, 50),
+       (5, 3, 120);
+select number_month, count(amount) from orders GROUP BY number_month;

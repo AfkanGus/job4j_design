@@ -384,3 +384,45 @@ VALUES (1, 1, 100),
        (4, 2, 50),
        (5, 3, 120);
 select number_month, count(amount) from orders GROUP BY number_month;
+
+-- запрос, который определит количество проданных товаров для каждого продавца.
+--Используйте таблицу "Продажи" с полями: продавец, товар, количество. Группировка будет по seller_id.
+create table sales(
+seller_id int,
+product_id int,
+quantity int
+);
+insert into sales values (1, 1, 10),
+       (2, 2, 5),
+       (1, 3, 8),
+       (3, 4, 12),
+       (2, 1, 15);
+select seller_id, sum(quantity) from sales group by seller_id;
+
+-- вычислит общий доход от продаж для каждой категории товаров. Используйте таблицы:
+-- "Продукты" с полями: товар, категория, цена. - "Продажи" с полями: продажа, id товара, количество. Группировка будет по category.
+CREATE TABLE products
+(
+    id INT PRIMARY KEY,
+    category   VARCHAR(50),
+    price      INT
+);
+
+CREATE TABLE sales
+(
+    sale_id    INT PRIMARY KEY,
+    product_id INT references products(id),
+    quantity   INT
+);
+INSERT INTO products
+VALUES (1, 'Electronics', 500),
+       (2, 'Clothing', 30),
+       (3, 'Electronics', 700),
+       (4, 'Books', 20);
+
+INSERT INTO sales
+VALUES (1, 1, 10),
+       (2, 2, 5),
+       (3, 3, 8),
+       (4, 4, 12);
+select p.category, sum(p.price * s.quantity) from products p join sales s on p.id = s.product_id group by p.category;

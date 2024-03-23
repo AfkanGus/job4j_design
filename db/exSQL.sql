@@ -638,6 +638,117 @@ where age < 30
 group by department;
 
 
+create table orders
+(
+    id         serial primary key,
+    client_id  int,
+    order_year int,
+    amount     int
+);
+insert into orders (client_id, order_year, amount)
+values (1, 2023, 100),
+       (2, 2023, 150),
+       (1, 2023, 200),
+       (3, 2023, 50),
+       (2, 2023, 120);
+
+--Создайте запрос, который подсчитает общее количество заказов для каждого клиента
+--за текущий год. Группировка будет по client_id.
+select  client_id,
+count(amount) as count
+from orders
+where order_year  = 2023
+group by client_id;
+
+
+--Разработайте запрос, который найдет количество оценок и максимальную оценку по каждому предмету,
+--учитывая только те которые больше 85. Группировка будет по subject.
+create table scores
+(
+    student_id   serial primary key,
+    student_name varchar(50),
+    subject      varchar(50),
+    score        int
+);
+insert into scores (student_name, subject, score)
+values ('Alice', 'Math', 85),
+       ('Bob', 'Math', 78),
+       ('Alice', 'Physics', 90),
+       ('Bob', 'Physics', 88),
+       ('Charlie', 'Math', 92),
+       ('Charlie', 'Physics', 95);
+
+select subject,
+count(score), max(score) as max_grade
+from scores
+where score > 85
+group by subject;
+
+
+
+--Предложение WHERE с оператором LIKE 3
+create table airplanes(
+id int not null primary key,
+model text,
+range int,
+capacity int
+);
+insert into airplanes values(1, 'Airbus-320-200', 5700, 180);
+insert into airplanes values(2, 'Airbus-321-200', 5600, 220);
+insert into airplanes values(3, 'Airbus-319-100', 6700, 150);
+insert into airplanes values(4, 'Cessna 208 Caravan', 1200, 13);
+insert into airplanes values(5, 'Boeing 777-300', 11100, 450);
+insert into airplanes values(6, 'Boeing 767-300', 7900, 350);
+insert into airplanes values(7, 'Boeing 737-300', 4200, 145);
+insert into airplanes values(8, 'Sukhoi SuperJet-100', 3000, 98);
+insert into airplanes values(9, 'Bombardier CRJ-200', 2700, 50);
+
+--который вернет все строки у которой в столбце model будет в конце строки последовательность символов 200.
+select *
+from airplanes
+where model
+like '%200';
+
+--трока которая начинается с Airbus.
+select id,model,range,capacity
+from airplanes
+where model
+like 'Airbus%';
+
+--ернет строки, в которых в столбце model будет строка которая начинается гарантировано
+--из трех любых символов, дальше идет буква 'b' и далее - любой набор символов.
+--символ "_" - он соответствует в точности одному любому символу.
+--Т.е. если разбирать этот шаблон, то искомая строка должна начинаться с 2 символов,
+--после которых следует искомая подстрока, а дальше - любой набор символов.
+select *
+from airplanes
+where model
+like '%__b%';
+--в столбце model не содержится подстрока Airbus и Boeing.
+select *
+from airplanes
+where model
+NOT LIKE 'Airbus%'
+and model
+NOT LIKE 'Boeing%';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

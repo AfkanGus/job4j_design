@@ -103,12 +103,12 @@ create table engines (
 
 insert into cars values (1, 'Toyota Camry');
 insert into cars values (2, 'Renault Sandero');
-INSERT INTO cars VALUES (3, 'Audi A6');
-INSERT INTO cars VALUES (4, 'Renault Sandero');
+insert into cars values (3, 'Audi A6');
+insert into cars values (4, 'Renault Sandero');
 insert into engines values (1234, 2.5, 181, 1);
 insert into engines values (5678, 1.2, 75, 2);
-INSERT INTO engines VALUES (1479, 1.6, 123, null);
-INSERT INTO engines VALUES (5072, 3.0, 231, null);
+insert into engines values (1479, 1.6, 123, null);
+insert into engines values (5072, 3.0, 231, null);
 --RIGHT--
 select id, model, number, volume, power from cars right join engines on cars.id=engines.car_id;
 select * from cars c full join engines e on c.id=e.car_id;
@@ -343,47 +343,94 @@ insert into subjects values(5, 'Computer Science', 70, current_date);
 select * from subjects where grade in (50,60,70);
 
 
+
 --FULL OUTER JOIN--
-CREATE TABLE departments (
+
+create table departments (
     id int primary key,
     "name" text not null
 );
-
-CREATE TABLE employees (
+delete from departments;
+create table employees (
     id int primary key,
     "name" text,
     department_id int references departments(id)
 );
+delete from employees;
 --Для представленной ниже схемы напишите запрос с использованием FULL OUTER JOIN. Результирующий
  --набор должен включать всех сотрудников, принадлежащих отделу, и всех отделов, в которых есть сотрудник.
 --Кроме того, результат должен включать каждого сотрудника, не принадлежащего отделу, и каждый отдел, в котором нет
  --сотрудников. В результат отражаем значения столбцов name из каждой таблицы. Левая таблица – employees, правая – departments.
-INSERT INTO departments VALUES (1, 'Sales'),
+insert into departments values (1, 'Sales'),
                                (2, 'Marketing'),
                                (3, 'HR'),
                                (4, 'IT'),
-                               (5, 'Production');
+                               (5, 'Production'),
+                               (6, 'Inginer'),
+                               (7,'Draver'),
+                               (8,'Doctor');
 
-INSERT INTO employees VALUES (1, 'Ivan Ivanov', 1),
+
+insert into employees values (1, 'Ivan Ivanov', 1),
                              (2, 'Petr Petrov', 1),
                              (3, 'Olga Sergeeva', 2),
-                             (4, 'Michael Shnurov', 3),nu
+                             (4, 'Michael Shnurov', 3),
                              (5, 'Irina Trubkina', 4),
                              (6, 'Evgenii Shtukov', null);
+--2. Выполнить запросы с left, right, full, cross соединениями
+--получить все строки из двух таблиц
 select e.name,d.name from employees e full join departments d on e.department_id=d.id;
-CREATE TABLE orders
-(
-    id           INT PRIMARY KEY,
-    number_month INT,
-    amount       INT
+--полить список сотрудникоов вместе с их отделами
+select * from employees e left join departments d on e.department_id=d.id;
+--получить список отделов с их сотрудниками
+select * from departments d right join employees e on d.id=e.department_id;
+--получить список всех возможных комбинаций сотрудников и отделов
+select * from employees e cross join departments d;
+--3. Используя left join найти департаменты, у которых нет работников.
+select * from departments d left join  employees e on d.id=e.department_id where e.id is null;
+--4. Используя left и right join написать запросы, которые давали бы одинаковый результат
+--(порядок вывода колонок в эти запросах также должен быть идентичный).
+select * from departments d left join employees e on d.id = e.department_id;
+select * from employees e right join departments d on e.department_id = d.id;
+
+
+--5. Создать таблицу teens с атрибутами name, gender и заполнить ее.
+create table teens(
+id serial primary key ,
+"name" varchar(255),
+gender varchar(255)
 );
-INSERT INTO orders
-VALUES (1, 1, 100),
+insert into teens (name,gender) values
+('Вася', 'М'),
+('Петя', 'М'),
+('Саня', 'М'),
+('Катя', 'Ж'),
+('Света', 'Ж'),
+('Оля', 'Ж');
+select (t1.name , t2.name) from teens t1 cross join teens t2 where t1.gender != t2.gender and t1.gender = 'М';
+
+
+
+
+
+
+
+
+
+
+create table orders
+(
+    id           int primary key,
+    number_month int,
+    amount       int
+);
+insert into orders
+values (1, 1, 100),
        (2, 2, 150),
        (3, 1, 200),
        (4, 2, 50),
        (5, 3, 120);
-select number_month, count(amount) from orders GROUP BY number_month;
+select number_month, count(amount) from orders group by number_month;
 
 -- запрос, который определит количество проданных товаров для каждого продавца.
 --Используйте таблицу "Продажи" с полями: продавец, товар, количество. Группировка будет по seller_id.
@@ -401,28 +448,157 @@ select seller_id, sum(quantity) from sales group by seller_id;
 
 -- вычислит общий доход от продаж для каждой категории товаров. Используйте таблицы:
 -- "Продукты" с полями: товар, категория, цена. - "Продажи" с полями: продажа, id товара, количество. Группировка будет по category.
-CREATE TABLE products
+create table products
 (
-    id INT PRIMARY KEY,
-    category   VARCHAR(50),
-    price      INT
+    id int primary key,
+    category   varchar(50),
+    price      int
 );
 
-CREATE TABLE sales
+create table sales
 (
-    sale_id    INT PRIMARY KEY,
-    product_id INT references products(id),
-    quantity   INT
+    sale_id    int primary key,
+    product_id int references products(id),
+    quantity   int
 );
-INSERT INTO products
-VALUES (1, 'Electronics', 500),
+insert into products
+values (1, 'Electronics', 500),
        (2, 'Clothing', 30),
        (3, 'Electronics', 700),
        (4, 'Books', 20);
 
-INSERT INTO sales
-VALUES (1, 1, 10),
+insert into sales
+values (1, 1, 10),
        (2, 2, 5),
        (3, 3, 8),
        (4, 4, 12);
 select p.category, sum(p.price * s.quantity) from products p join sales s on p.id = s.product_id group by p.category;
+
+--0. Join [#6862]--
+--«Внешней» здесь будет таблица, к которой присоединяют.
+-- берется исходная таблица и для каждой ее записи находится запись, которая бы
+ --удовлетворяла условию. Если она не будет найдена, то по столбцам будут стоять null
+create table owners
+(
+    id   serial primary key,
+    "name" varchar(255)
+);
+
+create table devices
+(
+    id       serial primary key,
+    "name"     varchar(255),
+    owner_id int references owners (id)
+);
+
+insert into owners(name)
+values ('Owner 1');
+insert into owners(name)
+values ('Owner 2');
+insert into owners(name)
+values ('Owner 3');
+
+insert into devices(name, owner_id)
+values ('Device 1', 1);
+insert into devices(name, owner_id)
+values ('Device 2', 2);
+insert into devices(name, owner_id)
+values ('Device 3', 3);
+insert into devices(name, owner_id)
+values ('Device 4', null);
+insert into devices(name, owner_id)
+values ('Device 5', null);
+insert into devices(name, owner_id)
+values ('Device 6', 1);
+--В данном случае «внешней» будет таблица табл1. Следовательно, выбираются записи из табл1 и
+ --для них подбираются записи в таблице табл2. Очевидно, что в результате мы получим n записей,
+ -- где n это число записей в таблице табл1, т.е. получим записи из табл1, только с присоединенными записями из табл2.
+select * from devices d
+left join owners o on d.owner_id=o.id;
+
+select * from devices d
+left join owners o on d.owner_id=o.id where  o.id is null;
+--right outer join
+--select .. from левая <тип> join правая on <условие>
+select * from owners o
+right join devices d
+on d.owner_id=o.id;
+
+select * from devices d
+         right join owners o on d.owner_id = o.id;
+
+
+select * from owners o
+left join devices d
+on o.id = d.owner_id;
+
+select * from devices d
+         full join owners o on d.owner_id = o.id;
+
+
+select * from devices d
+         left join owners o on d.owner_id = o.id
+union
+select * from devices d
+         right join owners o on d.owner_id = o.id;
+
+
+--cross join
+--каждая строка из первой таблицы объединяется с каждой строкой из второй таблицы
+select  * from devices d cross join owners o;
+create table numbers
+(
+    num int unique
+);
+
+insert into numbers(num)
+values (1);
+insert into numbers(num)
+values (2);
+insert into numbers(num)
+values (3);
+--Таким образом, данный вид запроса может служить для генерации данных на уровне БД.
+select n1.num as a, n2.num as b, (n1.num * n2.num) as "a*b=" from numbers n1
+         cross join numbers n2;
+
+
+--11. GROUP BY и WHERE 1.
+create table grades(
+id serial primary key,
+"name" varchar(50),
+subject varchar(50),
+grade int
+);
+insert into grades(name,subject,grade) values
+('Alice', 'Math', 85),
+       ('Jack', 'Math', 70),
+       ('Bob', 'Math', 78),
+       ('Alice', 'Physics', 90),
+       ('Bob', 'Physics', 88),
+       ('Charlie', 'Math', 92),
+       ('Charlie', 'Physics', 95),
+       ('Jack', 'Physics', 84);
+--Напишите запрос, который выведет топ-3 студентов по среднему баллу, учитывая только тех,
+--кто получил оценки выше 80. Группировка будет по name.
+select name,
+avg(grade) as average
+from grades
+where grade>80
+group by name
+order by average desc
+limit 3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

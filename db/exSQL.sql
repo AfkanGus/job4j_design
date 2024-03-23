@@ -588,15 +588,54 @@ group by name
 order by average desc
 limit 3;
 
+create table sales
+(
+    id           serial primary key,
+    category     varchar(50),
+    month_number int,
+    amount       int
+);
+
+insert into sales (category, month_number, amount)
+values ('Electronics', 2, 1000),
+       ('Clothing', 2, 500),
+       ('Electronics', 1, 800),
+       ('Books', 3, 300),
+       ('Electronics', 1, 1200);
+
+select * from sales;
+--Создайте запрос, который подсчитает суммарные продажи по категориям
+--товаров за месяц с номером 2. Группировка будет по category.
+select category,
+sum(amount) as sum
+from sales
+where month_number = 2
+group by category;
 
 
 
 
+--Напишите запрос, который вычислит средний возраст сотрудников для каждого отдела,
+--оставив только тех, кто младше 30 лет. Группировка будет по department.
+create table employees
+(
+    id         serial primary key,
+    "name"       varchar(50),
+    department varchar(50),
+    age        int
+);
+insert into employees (name, department, age)
+values ('John', 'HR', 28),
+       ('Jane', 'IT', 32),
+       ('Bob', 'Finance', 29),
+       ('Alice', 'IT', 26),
+       ('Charlie', 'HR', 30);
 
-
-
-
-
+select department,
+avg(age) as avg
+from employees
+where age < 30
+group by department;
 
 
 

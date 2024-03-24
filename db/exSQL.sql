@@ -728,9 +728,93 @@ like '%__b%';
 select *
 from airplanes
 where model
-NOT LIKE 'Airbus%'
+not like 'Airbus%'
 and model
-NOT LIKE 'Boeing%';
+not like 'Boeing%';
+
+------------------------------------------
+create table departments (
+    id int primary key,
+    "name" text not null
+);
+
+create table employees (
+    id int primary key,
+    "name" text,
+    department_id int references departments(id)
+);
+insert into departments values (1, 'Sales'),
+                               (2, 'Marketing'),
+                               (3, 'HR'),
+                               (4, 'IT'),
+                               (5, 'Production');
+
+insert into employees values (1, 'Ivan Ivanov', 1),
+                             (2, 'Petr Petrov', 1),
+                             (3, 'Olga Sergeeva', 2),
+                             (4, 'Michael Shnurov', 3),
+                             (5, 'Irina Trubkina', 4),
+                             (6, 'Evgenii Shtukov', null);
+
+
+--ель запроса – найти отдел, в котором нет сотрудников.
+--В результирующем наборе должны быть отражены только значения столбцов name
+--из обоих таблиц. Левая таблица – employees, правая – departments. Левая таблица – employees, правая – departments.
+select e.name, d.name from departments d left join  employees e on d.id=e.department_id
+where e.department_id is null;
+---айти сотрудника, который не принадлежит ни к какому отделу. Левая таблица – employees, правая – departments.
+select e.name, d.name from departments d right join employees e on d.id=e.department_id
+where d.id is null;
+--NATURAL JOIN – это соединение, которое создает неявное соединение на основе тех столбцов в
+--соединяемых таблицах которые имеют одинаковые имена.
+select * from departments natural join employees;
+
+--------------------------------------------------------------
+create table cars (
+    car_id int primary key,
+    model text
+);
+
+create table engines (
+    number int primary key,
+    volume decimal,
+    power int,
+    car_id int references cars(car_id)
+);
+insert into cars values (1, 'Toyota Camry');
+insert into cars values (2, 'Kia Rio');
+insert into cars values (3, 'Audi A6');
+insert into cars values (4, 'Renault Sandero');
+
+insert into engines values (1234, 2.5, 181, 1);
+insert into engines values (1479, 1.6, 123, null);
+insert into engines values (5678, 1.2, 75, 4);
+insert into engines values (5072, 3.0, 231, null);
+--Для представленной ниже схемы выполните запрос с использованием NATURAL JOIN.
+--Это должен быть LEFT JOIN. В результатах отражаем значения столбцов model, volume, power.
+select c.model, e.volume,e.power from cars c left join  engines e on c.car_id=e.car_id;
+
+SELECT c.model, e.volume, e.power
+FROM cars c
+LEFT JOIN engines e ON c.car_id = e.car_id;
+--Для представленной ниже схемы выполните запрос с использованием NATURAL JOIN.
+--Это должен быть RIGHT JOIN. В результатах отражаем значения всех столбцов – используйте
+--оператор звездочки (*).
+select c.car_id, c.model, e.number,e.volume,e.power
+ from cars c right join engines e on c.car_id=e.car_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

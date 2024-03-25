@@ -794,16 +794,59 @@ insert into engines values (5072, 3.0, 231, null);
 --Это должен быть LEFT JOIN. В результатах отражаем значения столбцов model, volume, power.
 select c.model, e.volume,e.power from cars c left join  engines e on c.car_id=e.car_id;
 
-SELECT c.model, e.volume, e.power
-FROM cars c
-LEFT JOIN engines e ON c.car_id = e.car_id;
+select c.model, e.volume, e.power
+from cars c
+left join engines e on c.car_id = e.car_id;
 --Для представленной ниже схемы выполните запрос с использованием NATURAL JOIN.
 --Это должен быть RIGHT JOIN. В результатах отражаем значения всех столбцов – используйте
 --оператор звездочки (*).
 select c.car_id, c.model, e.number,e.volume,e.power
  from cars c right join engines e on c.car_id=e.car_id;
 
+-------21. NATURAL JOIN 4
+--NATURAL JOIN – созд.неявное соединение на основе в таблицах с однаковыми именами.
+--не нужно указывать логическое выражения для соединения,т.к.исползуется неявное предложение.
+--основаное на совпадении сталбцов в таб.
+create table departments (
+    department_id int primary key,
+    "name" text not null
+);
+create table employees (
+    id int primary key,
+    employee_name text,
+    department_id int references departments(department_id)
+);
+INSERT INTO departments VALUES (1, 'Sales'),
+                               (2, 'Marketing'),
+                               (3, 'HR'),
+                               (4, 'IT'),
+                               (5, 'Production');
 
+INSERT INTO employees VALUES (1, 'Ivan Ivanov', 1),
+                             (2, 'Petr Petrov', 1),
+                             (3, 'Olga Sergeeva', 2),
+                             (4, 'Michael Shnurov', 3),
+                             (5, 'Irina Trubkina', 4),
+                             (6, 'Evgenii Shtukov', null);
+--результатах отражены значения всех столбцов, используйте (*).
+select * from departments natural join employees;
+
+--22. NATURAL JOIN 5.
+--Тем не менее, следует избегать использования NATURAL JOIN в том случае, если это возможно,
+ --поскольку иногда это может привести к неожиданному результату
+ CREATE TABLE departments (
+    department_id int primary key,
+    "name" text not null
+);
+
+CREATE TABLE employees (
+    id int primary key,
+    "name" text,
+    department_id int references departments(department_id)
+);
+select * from departments natural join employees;
+--Вернет пустой набор результатов. Связано это с тем, что в
+ --таблицах имеется одинаковый столбец name, который и будет использован для выполнения NATURAL JOIN.
 
 
 

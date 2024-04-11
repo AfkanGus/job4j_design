@@ -846,7 +846,76 @@ CREATE TABLE employees (
 );
 select * from departments natural join employees;
 --Вернет пустой набор результатов. Связано это с тем, что в
- --таблицах имеется одинаковый столбец name, который и будет использован для выполнения NATURAL JOIN.
+--таблицах имеется одинаковый столбец name, который и будет использован для выполнения NATURAL JOIN.
+
+
+
+
+
+--2. Триггеры [#504803].
+create table products
+(
+    id       serial primary key,
+    "name"     varchar(50),
+    producer varchar(50),
+    count    integer default 0,
+    price    integer
+);
+insert into products (name, producer, count, price)
+VALUES ('product_3', 'producer_3', 8, 115);
+
+insert into products (name, producer, count, price)
+VALUES ('product_1', 'producer_1', 3, 50);
+--мы вставили данные в таблицу, и обрабатываем эти данные применяя скидку(discount_trigger)
+ --и налог(tax_trigger).
+
+--row уровень.Запускается каждый раз заново для каждой отдельной строки.
+-- discount_trigger обновляет цену продукта, уменьшая её на 20%, если количество продукта меньше или равно 5
+create trigger discount_trigger
+    after insert -- сработает после вставки в таблицу
+    on products
+    for each row -- для каждой строки
+    execute procedure discount(); --вызывает процедуру discount()
+
+
+create
+or replace function discount() --создаение или замена функции
+    returns trigger as -- вернет триггер
+$$--начало тела функции вызывается при сробатываии триггера.
+    BEGIN--начало блока функции.
+        update products
+        set price = price - price * 0.2 --вычитывает 20% текущей цены.
+        where count <= 5 --если количество прод.меньше 5
+        AND id = new.id; -- и id новой строки равно id
+        return NEW; -- возвращаем ключевую строку после выполнения обновлений.
+    END;
+$$
+LANGUAGE 'plpgsql';
+
+
+--statement уровне, уровень запроса. Запускается один раз для всего SQLзапроса.
+--tax_trigger применяет налог, уменьшая цену на 20%, если количество продукта меньше или равно 5.
+create trigger tax_trigger
+    after insert
+    on products
+    referencing new table as --определяет какие данные будут доступны внитри триггера.
+                    inserted
+    for each statement --частота срабоатываения триггера
+    execute procedure tax();
+
+    create
+or replace function tax() --создание или замена
+    returns trigger as --функция возвращает результат типа триггер
+$$
+    BEGIN
+        update products
+        set price = price - price * 0.2
+        where id = (select id from inserted)
+        and count <= 5;
+        return new;
+    END;
+$$
+LANGUAGE 'plpgsql';
 
 
 
@@ -875,7 +944,4 @@ select * from departments natural join employees;
 
 
 
-
-
-
-
+g

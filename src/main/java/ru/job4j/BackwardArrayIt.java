@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 
 /**
  * 1. Что такое итератор. [#4951].
- * Итератор должен отдавать элементы в обратном порядке.
+ * Итератор должен отдавать элементы в обратном порядке
  */
 public class BackwardArrayIt implements Iterator<Integer> {
     private final int[] data;

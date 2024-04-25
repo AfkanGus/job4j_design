@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 7. Балансир [#505083].
+ * Итератор должен отдавать элементы в обратном порядке.
  */
 class BalancerTest {
     @Test

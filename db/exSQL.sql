@@ -32,6 +32,8 @@ select min(amount) from transactions;
 select purpose, min(amount) from transactions group by purpose;
 --WHERE--
 select * from transactions where  purpose != 'Vacation' and amount < 150;
+--напишите запрос, который вернет только те транзакции, значение поле в amount находится в пределах от 100 до 200. В выборке должны быть отражены значения всех столбцов.
+select * from transactions where amount between 100 and 200;
 
 ---WHERE--
 create table account(
@@ -41,6 +43,7 @@ id int null primary key,
 insert into account values(1, 'Petr Arsntev'),(2,'Ivan Ivanov'),(3,'Oleg Olegovic');
 --Выборка по where id. Нужно получить запись с ID = 1;
 select *from  account where id = 1;
+
 -----------------------
 create table customers(
 id int not null primary key,
@@ -71,6 +74,17 @@ select * from customers where length(first_name) >= 5 and acitve = false;
 select * from customers where id > 3 or acitve = false;
 
 select * from customers where first_name in('Ann','Anne','Annie');
+-- запрос, который вернет только те строки, в которых значения в столбце first_name начинается с подстроки An, и длина всей строки в это столбце находится в пределах от 3 до 5 символов.
+select * from customers where first_name like 'An%' length(first_name) berween 3 and 5;
+
+
+
+
+
+
+
+
+
 
 --JOIN--
 --чтобы получить данные из нескольких таблиц, используется INNER JOIN.
@@ -816,13 +830,13 @@ create table employees (
     employee_name text,
     department_id int references departments(department_id)
 );
-INSERT INTO departments VALUES (1, 'Sales'),
+insert into departments values (1, 'Sales'),
                                (2, 'Marketing'),
                                (3, 'HR'),
                                (4, 'IT'),
                                (5, 'Production');
 
-INSERT INTO employees VALUES (1, 'Ivan Ivanov', 1),
+insert into employees values (1, 'Ivan Ivanov', 1),
                              (2, 'Petr Petrov', 1),
                              (3, 'Olga Sergeeva', 2),
                              (4, 'Michael Shnurov', 3),
@@ -834,19 +848,316 @@ select * from departments natural join employees;
 --22. NATURAL JOIN 5.
 --Тем не менее, следует избегать использования NATURAL JOIN в том случае, если это возможно,
  --поскольку иногда это может привести к неожиданному результату
- CREATE TABLE departments (
+ create table departments (
     department_id int primary key,
     "name" text not null
 );
 
-CREATE TABLE employees (
+create table employees (
     id int primary key,
     "name" text,
     department_id int references departments(department_id)
 );
+
+
 select * from departments natural join employees;
 --Вернет пустой набор результатов. Связано это с тем, что в
---таблицах имеется одинаковый столбец name, который и будет использован для выполнения NATURAL JOIN.
+ --таблицах имеется одинаковый столбец name, который и будет использован для выполнения NATURAL JOIN.
+
+
+
+---------------------------------------------------
+create table employee(
+employy_id int primary key ,
+"name" text,
+manager_id int references employee(employy_id)
+);
+insert into employee values (1, 'Petr', null),
+                             (2, 'Andrey', 1),
+                             (3, 'Elena', 1),
+                             (4, 'Anna', 2),
+                             (5, 'Stas', 2),
+                             (6, 'Sergey', 3),
+                             (7, 'Alex', 3),
+                             (8, 'Michael', 3);
+--Для представленной ниже таблицы employee выполните запрос иерархических данных. При этом:
+--
+--- столбец manager_id ссылается на столбец employee_id. Значение в первом показывает руководителя, которому непосредственно подчиняется сотрудник.
+--
+--- если значение в manager_id столбце равно null, то этот сотрудник никому не отчитывается. Другими словами, это наш топ-менеджер.
+--
+--В качестве псевдонимов используйте e (левая таблица) и m (правая таблица). В качестве условия объединения используйте выражение m.employee_id = e.manager_id.
+
+select e.name, m.name from employee e left join employee m on e.manager_id=m.employy_id;
+
+
+
+
+
+
+
+----------
+create table films (
+    film_id int primary key,
+    title text,
+    length int
+);
+insert into films values (1, 'Resurrection Silverado', 117),
+                         (2, 'Graffiti Love', 117),
+                         (3, 'Affair Prejudice', 117),
+                         (4, 'Hurricane Affair', 49),
+                         (5, 'Hook Chariots', 49),
+                         (6, 'Heavenly Gun', 49),
+                         (7, 'Doors President', 49),
+                         (8, 'Sense Greek', 54),
+                         (9, 'October Submarine', 54),
+                         (10, 'Kill Brotherhood', 54);
+--Вашей задачей будет написать запрос, который вернет список фильмов, продолжительность которых совпадает.
+--При этом должно быть отражены данные: название фильма, во втором столбце – название фильма продолжительность которого совпадает,
+ --третий столбец – продолжительность фильма. Т.е. у нас не должны отражаться данные, когда фильм равен сам себе.
+--Поэтому Вам в условиях объединения понадобиться указать 2 условия через AND
+--В качестве псевдонимов используйте f1 (левая таблица) и f2 (правая таблица).
+select f1.title , f2.title, f1.length
+from films f1
+left join films f2 on f1.film_id != f2.film_id and f1.length = f2.length;
+
+
+
+
+
+
+
+
+create table subjects(
+    id int not null primary key,
+    "name" text,
+    grade int,
+    start_date timestamp
+);
+insert into subjects values(1, 'Math', 50, current_date);
+insert into subjects values(2, 'English', 75, current_date);
+insert into subjects values(3, 'Sociology', 65, current_date);
+insert into subjects values(4, 'Economics', 60, current_date);
+insert into subjects values(5, 'Computer Science', 70, current_date);
+--запрос, который вернет только те строки, в которых значения в столбце grade больше или равно 65 и меньше или равно 80. Не используйте в запросе BETWEEN
+select * from subjects where grade >= 65 and grade <=80;
+
+
+
+
+
+
+--1. Хранилище машин [#1733].
+create table car_bodies (
+    id int primary key ,
+    "name" text
+);
+
+create table car_engines (
+    id int primary key ,
+   "name" text
+);
+
+create table car_transmissions (
+    id int primary key ,
+    "name" text
+);
+
+create table car(
+id int primary key,
+"name" text,
+ body_id int references car_bodies (id),
+ engine_id int references car_engines(id),
+ transmission_id int references car_transmissions(id)
+);
+insert into car_bodies(id, "name") values
+(1, 'Седан'),
+(2, 'Хэтчбэк'),
+(3, 'Универсал'),
+(4, 'Пикап');
+
+insert into car_engines(id,"name") values
+(1, 'Газ'),
+(2, 'Дизель'),
+(3, 'Электро'),
+(4, 'Гибрид');
+
+insert into car_transmissions(id,"name") values
+(1,'Механика'),
+(2,'Автомат'),
+(3,'5 ступенчатый автомат'),
+(4,'Гибрит робот');
+
+insert into   car (id, name, body_id, engine_id, transmission_id) values
+(1, 'Toyota Camry', 1, 1, 2),
+(2, 'Honda', 2, 2, 2),
+(3, 'Volkswagen Golf', 3, 1, 1),
+(4, 'BMW 3', 1, 3, 2),
+(5, 'Tesla S', 1, 3, 3),
+(6,'Vaz 3110',null,null ,1);
+
+delete from car;
+
+--Вывести список всех машин и все привязанные к ним детали.
+select
+  c.id,
+  c.name as car_name,
+  cb.name as body_name,
+  ce.name as engine_name,
+  ct.name as transmission_name
+from car c
+left join
+    car_bodies cb on c.body_id = cb.id
+left join
+    car_engines ce on c.engine_id = ce.id
+left join
+    car_transmissions ct on c.transmission_id = ct.id;;
+
+
+
+
+
+--Вывести кузова, которые не используются НИ в одной машине(id -4, Пикап)
+    select
+    cb.id,
+    cb.name as body_nameunuse
+from
+    car_bodies cb
+left join
+    car c on cb.id = c.body_id
+where
+    c.id is null
+    group by cb.id;
+
+
+    create view body_nameunuse_view as
+      select
+    cb.id,
+    cb.name as body_nameunuse
+from
+    car_bodies cb
+left join
+    car c on cb.id = c.body_id
+where
+    c.id is null
+    group by cb.id;
+
+    select * from body_nameunuse_view;
+
+     alter VIEW body_nameunuse_view RENAME TO body_nameunuse_view1;
+
+
+
+
+-- Вывести двигатели, которые не используются ни в одной машине(id -4, Гибрид)
+select  ce.id,
+ ce.name engine_nameunuse
+ from car_engines ce
+ left join car c on ce.id = c.engine_id
+ where c.id is null;
+
+ ---- Вывести коробки передач, которые не используются ни в одной машине(id -4, Гибрит робот)
+ select ct.id,
+ ct.name as transmission_name_un_use
+ from car_transmissions ct
+ left join
+ car c on ct.id = c.transmission_id
+ where c.id is null;
+
+
+
+
+
+
+--1. Представления [#504792].
+
+create table students(
+id serial primary key ,
+"name" varchar(50)
+);
+insert into students (name)
+values ('Иван Иванов');
+insert into students (name)
+values ('Петр Петров');
+
+
+create table authors
+(
+    id   serial primary key,
+    "name" varchar(50)
+);
+
+insert into authors (name)
+values ('Александр Пушкин');
+insert into authors (name)
+values ('Николай Гоголь');
+
+
+
+create table books
+(
+    id serial primary key,
+    "name" varchar(200),
+    author_id integer references authors (id)
+);
+
+insert into books (name, author_id)
+values ('Евгений Онегин', 1);
+insert into books (name, author_id)
+values ('Капитанская дочка', 1);
+insert into books (name, author_id)
+values ('Дубровский', 1);
+insert into books (name, author_id)
+values ('Мертвые души', 2);
+insert into books (name, author_id)
+values ('Вий', 2);
+
+
+
+
+create table orders
+(
+    id serial primary key,
+    active boolean default true,
+    book_id integer references books (id),
+    student_id integer references students (id)
+);
+
+insert into orders (book_id, student_id)
+values (1, 1);
+insert into orders (book_id, student_id)
+values (3, 1);
+insert into orders (book_id, student_id)
+values (5, 2);
+insert into orders (book_id, student_id)
+values (4, 1);
+insert into orders (book_id, student_id)
+values (2, 2);
+
+--запрос, в котором мы определим список студентов, у которых находится 2 и более книг одного и того же автора.
+select s.name, count(a.name), a.name
+from students as s
+         join orders o on s.id = o.student_id
+         join books b on o.book_id = b.id
+         join authors a on b.author_id = a.id
+group by (s.name, a.name)
+having count(a.name) >= 2;
+
+--create view имя_представления as запрос_select.
+create view show_students_with_2_or_more_books
+as
+select s.name as student, count(a.name), a.name as author
+from students as s
+         join orders o on s.id = o.student_id
+         join books b on o.book_id = b.id
+         join authors a on b.author_id = a.id
+group by (s.name, a.name)
+having count(a.name) >= 2;
+--Выполнить запрос с помощью данного представления.
+select * from show_students_with_2_or_more_books;
+
+
+
 
 
 
@@ -862,10 +1173,10 @@ create table products
     price    integer
 );
 insert into products (name, producer, count, price)
-VALUES ('product_3', 'producer_3', 8, 115);
+values ('product_3', 'producer_3', 8, 115);
 
 insert into products (name, producer, count, price)
-VALUES ('product_1', 'producer_1', 3, 50);
+values ('product_1', 'producer_1', 3, 50);
 --мы вставили данные в таблицу, и обрабатываем эти данные применяя скидку(discount_trigger)
  --и налог(tax_trigger).
 
@@ -919,6 +1230,219 @@ LANGUAGE 'plpgsql';
 
 
 
+create table products
+(
+    id       serial primary key,
+    name     varchar(50),
+    producer varchar(50),
+    count    integer default 0,
+    price    integer
+);
+-- Триггер должен срабатывать после вставки данных, для любого товара и просто
+ --насчитывать налог на товар (нужно прибавить налог к цене товара).
+  --Действовать он должен не на каждый ряд, а на запрос (statement уровень)
+create
+or replace function tax_statement_level()
+    returns trigger as
+$$
+begin
+    update products
+    set price = price + price * 0.2;
+    return new;
+end;
+$$
+language plpgsql;
+
+create trigger tax_trigger_statement_level
+    after insert
+    on products
+    referencing new table as
+    inserted
+    for each statement
+    execute procedure tax_statement_level();
+ -- Делаем вставку в таблицу продуктов
+insert into products (name, producer, count, price)
+values
+('product_1', 'producer_1', 3, 50);
+insert into products (name, producer, count, price)
+values
+('product_2', 'producer_2', 3, 100);
+select * from products;
+
+-- Триггер должен срабатывать до вставки данных и насчитывать налог на товар
+--(нужно прибавить налог к цене товара). Здесь используем row уровень.
+create or replace function tax_row_level()
+    returns trigger as
+$$
+begin
+    new.price = new.price + new.price * 0.2;
+    return new;
+end;
+$$
+language plpgsql;
+
+create trigger tax_trigger_row_level
+    before insert
+    on products
+    for each row
+    execute procedure tax_row_level();
+
+
+insert into products (name, producer, count, price)
+values
+('product_3', 'producer_3', 3, 10),
+('product_4', 'producer_4', 3, 50),
+('product_5', 'producer_5', 3, 100);
+select * from products;
+
+-- написать триггер на row уровне, который сразу после вставки продукта в таблицу products,
+--будет заносить имя, цену и текущую дату в таблицу history_of_price.
+create table history_of_price
+(
+    id    serial primary key,
+    "name"  varchar(50),
+    price integer,
+    date  timestamp
+);
+create
+ or replace function log_price_history()
+    returns trigger as
+$$
+begin
+    insert into history_of_price (name, price, date)
+    values (new.name, new.price, now()); -- Запись в историю цен
+    return new;
+end;
+$$
+language plpgsql;
+
+create trigger price_history_trigger
+    after insert
+    on products
+    for each row
+    execute procedure log_price_history();
+
+insert into products (name, producer, count, price)
+values
+('product_6', 'producer_6', 3, 120),
+('product_7', 'producer_7', 3, 220),
+('product_8', 'producer_8', 3, 330);
+
+select * from products;
+
+select * from history_of_price;
+
+
+
+
+
+
+
+
+--3. Хранимые процедуры и функции [#504804].
+-- Добавьте процедуру и функцию, которая будет удалять записи. Условия выбирайте сами – удаление по id,
+--удалить если количество товара равно 0 и т.п.
+create table products
+(
+    id       serial primary key,
+    name     varchar(50),
+    producer varchar(50),
+    count    integer default 0,
+    price    integer
+);
+-- добавим хранимую процедуру, которая позволит вставлять данные в эту таблицу.
+create
+or replace procedure insert_data(i_name varchar, prod varchar, i_count integer, i_price integer)
+language 'plpgsql'
+as $$
+    BEGIN
+        insert into products (name, producer, count, price)
+        values (i_name, prod, i_count, i_price);
+    END
+$$;
+--используют CALL, т.е. вызывать процедуру
+call insert_data('product_2', 'producer_2', 15, 32);
+--добавим процедуру для обновления данных в таблице.
+create
+or replace procedure update_data(u_count integer, tax float, u_id integer)
+language 'plpgsql'
+as $$
+    BEGIN
+        if u_count > 0 THEN
+            update products
+            set count = count - u_count
+            where id = u_id;
+        end if;
+        if
+            tax > 0 THEN
+            update products
+            set price = price + price * tax;
+        end if;
+    END;
+$$;
+-- вызова нашей процедуры (в параметрах указываем число, на которое уменьшим count - 10 и id записи - 1).
+call update_data(10, 0, 1);
+-- Добавим еще несколько записей в таблицу:
+call insert_data('product_1', 'producer_1', 3, 50);
+call insert_data('product_3', 'producer_3', 8, 115);
+-- увеличим все цены на сумму налога
+call update_data(0, 0.2, 0);
+
+
+--Обновить процедуру (например, переименовать) как и обычно можно с помощью ALTER PROCEDURE.
+alter procedure update_data(u_count integer, tax float, u_id integer) rename to update;
+--Удалить процедуру можно с помощью DROP.
+drop procedure update_data(u_count integer, tax float, u_id integer);
+
+---------Зачистим таблицу products перед использованием хранимых функций:
+delete from products;
+ALTER SEQUENCE products_id_seq RESTART WITH 1;
+--как создавать и использовать хранимые функции
+create
+or replace function f_insert_data(i_name varchar, prod varchar, i_count integer, i_price integer)
+returns void --обратите внимание, что добавляется блок return.
+language 'plpgsql'
+as
+$$
+    begin
+        insert into products (name, producer, count, price)
+        values (i_name, prod, i_count, i_price);
+    end;
+$$;
+--Функции, в отличие от процедур, вызываются через обычный SELECT
+select f_insert_data('product_1', 'producer_1', 25, 50);
+----добавим функцию для обновления данных в таблице.
+create
+or replace function f_update_data(u_count integer, tax float, u_id integer)
+returns integer
+language 'plpgsql'
+as
+$$
+    declare
+        result integer;
+    begin
+        if u_count > 0 THEN
+            update products
+            set count = count - u_count
+            where id = u_id;
+            select into result count
+            from products
+            where id = u_id;
+        end if;
+        if tax > 0 THEN
+            update products
+            set price = price + price * tax;
+            select into result sum(price)--При обновлении цен мы возвращаем общую сумму всех цен товаров.
+            from products;
+        end if;
+        return result;--в качестве возвращаемого значения при обновлении количества товара мы вернем обновленное количество товара.
+    end;
+$$;
+select f_update_data(10, 0, 1);
+--Добавим в таблицу еще несколько записей:
+select f_insert_data('product_2', 'producer_2', 15, 32);
+select f_insert_data('product_3', 'producer_3', 8, 115);
+select f_update_data(0, 0.2, 0);
 
 
 
@@ -944,4 +1468,9 @@ LANGUAGE 'plpgsql';
 
 
 
-g
+
+
+
+
+
+

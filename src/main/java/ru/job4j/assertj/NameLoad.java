@@ -3,6 +3,9 @@ package ru.job4j.assertj;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 4. Утверждения с исключениями [#504886 #345414]
+ */
 public class NameLoad {
     private final Map<String, String> values = new HashMap<>();
 
@@ -21,7 +24,7 @@ public class NameLoad {
                 )));
     }
 
-   private boolean validate(String name) {
+    private boolean validate(String name) {
         if (!name.contains("=")) {
             throw new IllegalArgumentException(
                     String.format("this name: %s does not contain the symbol \"=\"", name));

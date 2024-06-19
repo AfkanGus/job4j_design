@@ -6,6 +6,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * 3. Утверждения с примитивными типами [#504883 #344295]
+ *
+ * @Test void whenMultiCallHasNextThenTrue() {
+ * Arrange - создание объекта и заполнение его данными
+ * ArrayIt iterator = new ArrayIt(
+ * new int[] {1, 2, 3}
+ * );
+ * /* Act - выполнение действия и сохранение результата
+ * boolean rsl=iterator.hasNext();
+ * /* Assert - оценка соответствия результата ожидаемому исходу
+ * assertThat(result).isTrue();
+ * /* этапы Act и Assert могут быть размещены в одной строке кода
+ * assertThat(iterator.hasNext()).isTrue();
+ * }
+ */
+
 class BoxTest {
     @Test
     void isThisSphere() {
@@ -13,6 +30,7 @@ class BoxTest {
         String name = box.whatsThis();
         assertThat(name).isEqualTo("Sphere");
     }
+
     @Test
     void isThisUnknown() {
         Box box = new Box(9, 10);

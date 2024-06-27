@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * 4. Утверждения с исключениями [#504886 #345414]
+ */
 class NameLoadTest {
 
     @Test

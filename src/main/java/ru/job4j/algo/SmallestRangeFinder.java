@@ -13,14 +13,17 @@ public class SmallestRangeFinder {
         if (n < k) {
             return null;
         }
+        /*Создаем массив для подсчета элементов*/
         int[] elementCount = new int[10];
+        /*Инициализация указателей*/
         int left = 0, right = 0;
+        /*Количество уникальных элементов*/
         int uniqueCount = 0;
         /*минимальная длина найденного диапазона*/
         int minLength = Integer.MAX_VALUE;
         /*индексы начала и конца наименьшего диапазона*/
         int[] result = null;
-
+        /*На первой итерации: right = 0, left = 0, uniqueCount = 0.*/
         while (right < n) {
             /*Расширяем правую границу диапазона*/
             if (elementCount[nums[right]] == 0) {
@@ -32,15 +35,16 @@ public class SmallestRangeFinder {
             /*Когда в окне достаточно уникальных элементов, пытаемся сузить окно*/
             while (uniqueCount >= k) {
                 if (right - left < minLength) {
+                    /*Обновляем минимальную длину*/
                     minLength = right - left;
                     result = new int[]{left, right - 1};
                 }
-                /*Сужаем левую границу окна*/
+                /*Сужаем левую границу окна Уменьшаем счетчик текущего элемента*/
                 elementCount[nums[left]]--;
                 if (elementCount[nums[left]] == 0) {
-                    uniqueCount--;
+                    uniqueCount--; /*Уменьшаем количество уникальных элементов*/
                 }
-                left++;
+                left++; /*Смещаем левый указатель вправо*/
             }
         }
         return result;
@@ -55,5 +59,7 @@ public class SmallestRangeFinder {
         } else {
             System.out.println("Такой диапазон не существует.");
         }
+        long memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        System.out.println("Память, использованная методом: " + memoryUsed + " байт");
     }
 }

@@ -27,10 +27,11 @@ public class SmallestRangeFinder {
         while (right < n) {
             /*Расширяем правую границу диапазона*/
             if (elementCount[nums[right]] == 0) {
+                /*если текущий эл.нет в диапаз. то счетунЭл увелич.*/
                 uniqueCount++;
             }
-            elementCount[nums[right]]++;
-            right++;
+            elementCount[nums[right]]++; /*увел кол текущ эл в массв.*/
+            right++;/*переходим к следующ эл массива nums*/
 
             /*Когда в окне достаточно уникальных элементов, пытаемся сузить окно*/
             while (uniqueCount >= k) {

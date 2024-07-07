@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Алгоритмы с Hash структурами [#505154]
+ */
 class LongestUniqueSubstringTest {
     @Test
     public void whenStringIsEmpty() {

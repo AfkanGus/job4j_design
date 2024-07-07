@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Алгоритмы с Hash структурами [#505154].
+ * Алгоритмы с Hash структурами [#505154]
  * найти самую длинную подстроку состоящую из уникальных элементов.
  */
 public class LongestUniqueSubstring {

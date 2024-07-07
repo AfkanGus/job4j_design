@@ -31,7 +31,7 @@ public class SmallestRangeFinder {
                 uniqueCount++;
             }
             elementCount[nums[right]]++; /*увел кол текущ эл в массв.*/
-            right++;/*переходим к следующ эл массива nums*/
+            right++; /*переходим к следующ эл массива nums*/
 
             /*Когда в окне достаточно уникальных элементов, пытаемся сузить окно*/
             while (uniqueCount >= k) {

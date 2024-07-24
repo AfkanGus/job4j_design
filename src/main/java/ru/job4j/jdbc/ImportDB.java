@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * 0.2. PreparedStatement [#379307].
+ * 0.2. PreparedStatement [#379307]
  */
 public class ImportDB {
     private Properties config;

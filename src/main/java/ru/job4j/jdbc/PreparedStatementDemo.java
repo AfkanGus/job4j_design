@@ -46,8 +46,7 @@ public class PreparedStatementDemo {
     public boolean update(City city) {
         boolean result = false;
         try (PreparedStatement statement =
-                     connection.prepareStatement("UPDATE cities SET name = ?," +
-                             " population = ? WHERE id = ?")) {
+                     connection.prepareStatement("UPDATE cities SET name = ?, population = ? WHERE id = ?")) {
             statement.setString(1, city.getName());
             statement.setInt(2, city.getPopulation());
             statement.setInt(3, city.getId());
@@ -110,8 +109,7 @@ public class PreparedStatementDemo {
          * сгенерированных ключей.
          */
         try (PreparedStatement statement =
-                     connection.prepareStatement("INSERT INTO" +
-                                     " cities(name, population) VALUES (?, ?)",
+                     connection.prepareStatement("INSERT INTO cities(name, population) VALUES (?, ?)",
                              Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, city.getName());
             statement.setInt(2, city.getPopulation());

@@ -1,13 +1,14 @@
 package ru.job4j.jdbc;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+/**
+ * 0.2. PreparedStatement [#379307].
+ */
 public class ImportDB {
     private Properties config;
     private String dump;
@@ -20,7 +21,14 @@ public class ImportDB {
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(dump))) {
-            /* reader.lines().forEach(...); */
+            reader.lines().forEach(line -> {
+                String[] stingParts = line.split(";");
+                if (stingParts.length != 2 || stingParts[0].isEmpty() || stingParts[1].isEmpty()) {
+                    throw new IllegalArgumentException(line);
+                }
+                users.add(new User(stingParts[0], stingParts[1]));
+
+            });
         }
         return users;
     }
@@ -33,7 +41,8 @@ public class ImportDB {
                 config.getProperty("jdbc.password")
         )) {
             for (User user : users) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users ...")) {
+                try (PreparedStatement preparedStatement = connection
+                        .prepareStatement("INSERT INTO users(name,email) VALUES(?,?)")) {
                     preparedStatement.setString(1, user.name);
                     preparedStatement.setString(2, user.email);
                     preparedStatement.execute();
@@ -55,12 +64,12 @@ public class ImportDB {
 
     public static void main(String[] args) throws Exception {
         Properties config = new Properties();
-        try <span>(InputStream </span><span>input </span><span>= </span>ImportDB.<span>class</span><span>
-    .getClassLoader</span><span>()</span><span>
-    .getResourceAsStream</span><span>(</span><span>"app.properties"</span><span>)</span><span>) </span><span>{</span><span>
-</span>            config.load(input);
+        try (InputStream input = ImportDB.class
+                .getClassLoader()
+                .getResourceAsStream("appImport.properties")) {
+            config.load(input);
         }
-        ImportDB dataBase = new ImportDB(config, "./dump.txt");
+        ImportDB dataBase = new ImportDB(config, "./data/dump.txt");
         dataBase.save(dataBase.load());
     }
 }

@@ -115,7 +115,7 @@ public class SimpleArrayList<T> implements List<T> {
             sublist.add(container[i]);
         }
         return sublist;
-}
+    }
 
     @Override
     public Iterator<T> iterator() {
@@ -141,7 +141,7 @@ public class SimpleArrayList<T> implements List<T> {
         };
     }
 
-    // Реализация остальных методов интерфейса List
+    /*Реализация остальных методов интерфейса List*/
 
     @Override
     public boolean isEmpty() {

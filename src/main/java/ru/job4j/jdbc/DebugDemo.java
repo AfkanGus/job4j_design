@@ -1,12 +1,8 @@
 package ru.job4j.jdbc;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 3. Отладчик при работе с Базой Данных [#504953 #507367].
- */
 public class DebugDemo {
 
     private Connection con;

@@ -1,5 +1,8 @@
 package ru.job4j.assertj;
 
+/**
+ * 3. Утверждения с примитивными типами [#504883 #344295].
+ */
 public class Model {
     private int top;
     private double num;

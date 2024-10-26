@@ -27,7 +27,7 @@ public class Box {
         type = switch (vertex) {
             case 0 -> "Sphere";
             case 4 -> "Tetrahedron";
-            case 8 -> "Cube";
+            case 8 -> "Cub";
             default -> UNKNOWN;
         };
         if (UNKNOWN.equals(type)) {
@@ -47,15 +47,15 @@ public class Box {
         return this.vertex;
     }
 
-    public boolean isExist() {
+    public boolean isExist() { /*проверка явл ли обект допустимым*/
         return this.vertex != -1;
     }
 
     public double getArea() {
         double a = edge;
         return switch (vertex) {
-            case 0 -> 4 * Math.PI * (a * a);
-            case 4 -> Math.sqrt(3) * (a * a);
+            case 0 -> 4 * Math.PI * (a * a);/*4pr2*/
+            case 4 -> Math.sqrt(3) * (a * a); /*корень 3 * a2*/
             case 8 -> 6 * (a * a);
             default -> 0;
         };

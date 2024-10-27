@@ -33,7 +33,7 @@ public class Box {
             case 0 -> "Sphere";
             case 4 -> "Tetrahedron";
             case 8 -> "Cube";
-            default -> UNKNOWN;
+            default -> "Unknown object";
         };
         if (UNKNOWN.equals(type)) {
             vertex = -1;

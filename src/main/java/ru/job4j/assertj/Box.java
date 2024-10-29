@@ -32,8 +32,8 @@ public class Box {
         type = switch (vertex) {
             case 0 -> "Sphere";
             case 4 -> "Tetrahedron";
-            case 8 -> "Cub";
-            default -> UNKNOWN;
+            case 8 -> "Cube";
+            default -> "Unknown object";
         };
         if (UNKNOWN.equals(type)) {
             vertex = -1;
@@ -59,7 +59,7 @@ public class Box {
     public double getArea() {
         double a = edge;
         return switch (vertex) {
-            case 0 -> 4 * Math.PI * (a * a);/*4pr2*/
+            case 0 -> 4 * Math.PI * (a * a); /*4pr2*/
             case 4 -> Math.sqrt(3) * (a * a); /*корень 3 * a2*/
             case 8 -> 6 * (a * a);
             default -> 0;

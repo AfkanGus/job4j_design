@@ -8,12 +8,14 @@ import java.util.Random;
 public class GCTypeDemo {
     public static void main(String[] args) {
         Random random = new Random();
-        int length = 100;
-        String[] data = new String[1_000_000];
+        int length = 10;
+        String[] data = new String[1_0];
         for (int i = 0; ; i = (i + 1) % data.length) {
-            data[i] = String.valueOf(
+            /*внтр цкл бдт сздвтс нв стрк в data[i]*/
+            data[i] = String.valueOf( /*сздм слчн чсл до 255,првдм к char
+            зтм прбрзм эт смвл в стрк*/
                     (char) random.nextInt(255)
-            ).repeat(length);
+            ).repeat(length); /*Этт мтд пвтрт стрк length раз сздв длн стрк*/
         }
     }
 }

@@ -15,7 +15,7 @@ public class GCTypeDemo {
             data[i] = String.valueOf( /*сздм слчн чсл до 255,првдм к char
             зтм прбрзм эт смвл в стрк*/
                     (char) random.nextInt(255)
-            ).repeat(length); /*Этт мтд пвтрт стрк length раз сздв длн стрк*/
+            ).repeat(length); /*Этт мтд пвтрт стрк length раз, сздвая длную стрк*/
         }
     }
 }

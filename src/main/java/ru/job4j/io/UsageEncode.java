@@ -4,6 +4,9 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
 
+/**
+ * 16. Кодировка [#862 #426331].
+ */
 public class UsageEncode {
     public String readFiles(String path) {
         StringBuilder builder = new StringBuilder();
@@ -19,9 +22,9 @@ public class UsageEncode {
     }
 
     public void writeDataInFile(String path, List<String> data) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(path,
-                Charset.forName("WINDOWS-1251"), true))) {
-            data.forEach(pw::println);
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
+            writer.println(data);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,3 +1,4 @@
+Ёксперименты с различными GC [#1590].
 [0.267s][info][gc] Using The Z Garbage Collector
 [0.630s][info][gc] GC(0) Garbage Collection (Warmup) 4M(15%)->4M(15%)
 [1.510s][info][gc] GC(1) Garbage Collection (Warmup) 6M(23%)->6M(23%)

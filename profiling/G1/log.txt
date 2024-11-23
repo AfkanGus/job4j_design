@@ -1,3 +1,4 @@
+ Ёксперименты с различными GC [#1590].
 [0.053s][info][gc] Using G1
 [4.099s][info][gc] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 6M->2M(16M) 11.540ms
 [4.305s][info][gc] GC(1) Pause Young (Normal) (G1 Evacuation Pause) 5M->3M(16M) 5.470ms

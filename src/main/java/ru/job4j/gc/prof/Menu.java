@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * 3. Эксперименты с различными GC [#1590].
+ * 3. Эксперименты с различными GC [#1590]
  */
 public class Menu {
     public static final int CREATE_ARRAY = 1;

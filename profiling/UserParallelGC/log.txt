@@ -1,3 +1,4 @@
+Ёксперименты с различными GC [#1590].
 [0.025s][info][gc] Using Parallel
 [4.202s][info][gc] GC(0) Pause Young (Allocation Failure) 6M->2M(25M) 9.164ms
 [4.572s][info][gc] GC(1) Pause Young (Allocation Failure) 9M->4M(25M) 10.616ms

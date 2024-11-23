@@ -2,6 +2,9 @@ package ru.job4j.gc.prof;
 
 import java.util.Random;
 
+/**
+ * . Эксперименты с различными GC [#1590]
+ */
 public class RandomArray implements Data {
     private int[] array;
     private Random random;

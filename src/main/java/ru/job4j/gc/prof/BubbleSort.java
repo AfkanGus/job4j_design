@@ -1,7 +1,7 @@
 package ru.job4j.gc.prof;
 
 /**
- * 3. Эксперименты с различными GC [#1590].
+ *  Эксперименты с различными GC [#1590].
  * Сортировка пузырьком.
  */
 public class BubbleSort implements Sort {

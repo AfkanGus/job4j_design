@@ -1,7 +1,7 @@
 package ru.job4j.gc.prof;
 
 /**
- * 3. Эксперименты с различными GC [#1590].
+ * 3. Эксперименты с различными GC [#1590]
  * Сортировка слиянием.
  */
 public class MergeSort implements Sort {

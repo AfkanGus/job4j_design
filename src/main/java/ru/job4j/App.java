@@ -1,7 +1,7 @@
 package ru.job4j;
 
 /**
- * Hello world!
+ * Hello world
  */
 
 public class App {

@@ -9,7 +9,7 @@ import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 0. Виды ссылок [#6854]
+ * 0. Виды ссылок [#6854].
  */
 public class PhantomDemo {
     private static class MyPhantom extends PhantomReference<String> {
@@ -39,7 +39,7 @@ public class PhantomDemo {
         }
 
         public void utilizeResource() {
-            for (ListIterator<MyPhantom> i = phantoms.listIterator(); i.hasNext();) {
+            for (ListIterator<MyPhantom> i = phantoms.listIterator(); i.hasNext(); ) {
                 MyPhantom current = i.next();
                 if (current != null && current.isEnqueued()) {
                     System.out.println("Utilized " + current.get());

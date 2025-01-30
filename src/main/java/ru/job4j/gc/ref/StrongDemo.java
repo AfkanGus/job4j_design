@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 0. Виды ссылок [#6854].
+ * 0. Виды ссылок [#6854]
  */
 public class StrongDemo {
     public static void main(String[] args) throws InterruptedException {

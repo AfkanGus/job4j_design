@@ -4,6 +4,9 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 0. Виды ссылок [#6854].
+ */
 public class SoftDemo {
     public static void main(String[] args) {
         /* example1(); */
